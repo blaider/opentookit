@@ -394,7 +394,7 @@ int fileTest(char * coma,char * comb,const char *filename)
 	data.comFd = fd2;
 	data.fileFd = fileRecv;
 	data.fileLength = sendLen;
-	if (sem_init(&m_hEvent, 0, 0) == -1)
+	if (sem_init(&m_hEvent, 0, 1) == -1)
 			return -1;
 	int error = pthread_create(&m_hThread, NULL, ComReadThread,
 			(void*) &data);
