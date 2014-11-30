@@ -6,4 +6,4 @@ default:
 	rm -rf *.mod.c  *.mod.o  *.o
 	rm -rf .*.ko.cmd  .*.mod.o.cmd  .*.o.cmd  .tmp_versions
 clean:
-	rm -rf *.o *.ko *.mod.c .*.cmd *.markers *.order *.symvers .tmp_versions
+	rm -rf tdrv *.o *.ko *.mod.c .*.cmd *.markers *.order *.symvers .tmp_versions
