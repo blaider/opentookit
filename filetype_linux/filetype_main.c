@@ -15,6 +15,7 @@
 
 int read_file(const char *name)
 {
+	//pasre file header
 	Elf32_Ehdr hdr;
 	int fd = open(name, O_RDONLY);
 	if (fd == -1)
@@ -52,6 +53,7 @@ int read_file(const char *name)
 	printf("e_shnum:%u\n", hdr.e_shnum);
 	printf("e_shstrndx:%u\n", hdr.e_shstrndx);
 
+	//get section header string table
 	Elf32_Shdr shdr;
 	lseek(fd,hdr.e_shoff+hdr.e_shstrndx*hdr.e_shentsize,SEEK_SET);
 	read(fd, (void *) &shdr, sizeof(shdr));
@@ -59,13 +61,14 @@ int read_file(const char *name)
 	char *buf = (char *)malloc(shdr.sh_size);
 	read(fd,buf,shdr.sh_size);
 
-
+	//get section header table
 	lseek(fd,hdr.e_shoff,SEEK_SET);
 
 	size_t offset = 0,size;
+	//traversal section header
 	for(i = 0;i<hdr.e_shnum;i++)
 	{
-		printf("\nseciotn:%d\n",i);
+		printf("\nseciotn:%d ",i);
 		read(fd, (void *) &shdr, sizeof(shdr));
 		printf("sh_name:%u ", shdr.sh_name);
 		printf("name:%s\n", buf+shdr.sh_name);
@@ -101,11 +104,15 @@ int read_file(const char *name)
 int main(int argc,char *argv[])
 {
 	int i;
+
+	//parse self
 	if (argc == 1)
 	{
 		read_file(argv[0]);
 		return 0;
 	}
+
+	//pasre all files
 	for (i = 1; i < argc; i++)
 	{
 		read_file(argv[i]);
