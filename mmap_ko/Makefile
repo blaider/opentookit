@@ -1,8 +1,8 @@
-obj-m:=drv.o
+obj-m:=mmap.o
 KERNELBUILD :=/lib/modules/$(shell uname -r)/build
 default: 
 	make -C $(KERNELBUILD) M=$(shell pwd) modules
-	$(CC)  tdrv.c -o tdrv
+	$(CC)  tmmap.c -o tmmap
 	rm -rf *.mod.c  *.mod.o  *.o
 	rm -rf .*.ko.cmd  .*.mod.o.cmd  .*.o.cmd  .tmp_versions
 clean:
