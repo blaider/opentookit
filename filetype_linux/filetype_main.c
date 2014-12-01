@@ -64,7 +64,8 @@ int read_file(const char *name)
 	//get section header table
 	lseek(fd,hdr.e_shoff,SEEK_SET);
 
-	size_t offset = 0,size;
+	size_t offset = 0,size = 0;
+	size_t str_offset = 0,str_size = 0;
 	//traversal section header
 	for(i = 0;i<hdr.e_shnum;i++)
 	{
@@ -76,6 +77,10 @@ int read_file(const char *name)
 		{
 			offset = shdr.sh_offset;
 			size = shdr.sh_size;
+		}else if(strcmp(buf+shdr.sh_name,".strtab") == 0)
+		{
+			str_offset = shdr.sh_offset;
+			str_size = shdr.sh_size;
 		}
 		printf("sh_type:%u ", shdr.sh_type);
 		printf("sh_flags:%u ", shdr.sh_flags);
@@ -96,6 +101,19 @@ int read_file(const char *name)
 		printf("%s\n",buf1);
 		free(buf1);
 	}
+
+	if (str_offset != 0)
+	{
+		int idx = 0;
+		lseek(fd, str_offset, SEEK_SET);
+		char *buf1 = (char *) malloc(str_size);
+		read(fd, buf1, str_size);
+		for(idx = 0;idx<str_size;idx += (strlen(buf1 + idx) +1))
+			printf("%s\n", buf1 + idx);
+		free(buf1);
+	}
+
+
 	free(buf);
 
 	return 0;
