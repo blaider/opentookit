@@ -31,10 +31,10 @@
 #include    <linux/slab.h>
 #include <asm-generic/ioctl.h>
 //#include     <asm/semaphore.h>
-//#include    <asm/system.h>
-//#include	<asm/uaccess.h>
+#include    <asm/system.h>
+#include	<asm/uaccess.h>
 //#include	<asm/arch/irqs.h>
-//#include 	<asm/io.h>
+#include 	<asm/io.h>
 #include 	<linux/version.h>
 //#include     <asm/hardware.h>
 #include     <linux/delay.h>
@@ -46,11 +46,10 @@
 #define MEM_IOCSET 			_IOW(MEM_IOC_MAGIC,0,int)
 #define MEM_IOCGQSET 	_IOR(MEM_IOC_MAGIC, 1, int)
 
-typedef struct
+typedef struct code_dev
 {
 	dev_t dev_num;
 	struct cdev cdev;
-
 } code_dev;
 static code_dev test_dev;
 unsigned char data_source;
@@ -59,12 +58,17 @@ unsigned char *kmalloc_area;
 unsigned long msize;
 static int test_open(struct inode *inode, struct file *filp)
 {
+	struct code_dev *dev = (struct code_dev *) container_of( inode->i_cdev, code_dev, cdev );
 	printk("enter %s+++++\n", __func__);
+	printk("node:%x\n",dev->dev_num);
+	filp->private_data = dev;
 	printk("leave %s-----\n", __func__);
 	return 0;
 }
 static int test_close(struct inode *inode, struct file *filp)
 {
+	struct code_dev *dev = (struct code_dev *)container_of( inode->i_cdev, code_dev, cdev );
+
 	int i;
 	printk("enter %s+++++\n", __func__);
 	for(i = 0;i<16;i++)
@@ -73,6 +77,8 @@ static int test_close(struct inode *inode, struct file *filp)
 	for(i = 0;i<16;i++)
 			printk("%02x ",*(testmap+i));
 	printk("\n");
+	printk("node:%x\n",dev->dev_num);
+
 	printk("leave %s-----\n", __func__);
 	return 0;
 }
@@ -80,7 +86,9 @@ static int test_close(struct inode *inode, struct file *filp)
 static ssize_t test_write(struct file *filp, const char __user *buf,
 		size_t count, loff_t *ppos)
 {
+	struct code_dev *dev = (struct code_dev *)filp->private_data;
 	printk("enter %s+++++\n", __func__);
+	printk("node:%x\n",dev->dev_num);
 	if (copy_from_user(&data_source, buf, sizeof(data_source)))
 	{
 		printk("write error!\n");
@@ -92,7 +100,9 @@ static ssize_t test_write(struct file *filp, const char __user *buf,
 static ssize_t test_read(struct file *filp, char __user *buf, size_t count,
 		loff_t *ppos)
 {
+	struct code_dev *dev =(struct code_dev *) filp->private_data;
 	printk("enter %s+++++\n", __func__);
+	printk("node:%x\n",dev->dev_num);
 	if (copy_to_user(buf, &data_source, sizeof(data_source)))
 	{
 		printk("read error!\n");
@@ -103,7 +113,9 @@ static ssize_t test_read(struct file *filp, char __user *buf, size_t count,
 static int test_mmap(struct file *file, struct vm_area_struct *vma)
 {
 	int ret;
-	printk("enter %s+++++\n", __func__);
+	struct code_dev *dev =(struct code_dev *) file->private_data;
+		printk("enter %s+++++\n", __func__);
+		printk("node:%x\n",dev->dev_num);
 	ret = remap_pfn_range(vma, vma->vm_start,
 			virt_to_phys((void *) ((unsigned long) kmalloc_area)) >> PAGE_SHIFT,
 			vma->vm_end - vma->vm_start, PAGE_SHARED);
@@ -119,20 +131,12 @@ static long test_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 
 	int result;
 	int i;
-	printk("enter %s+++++\n", __func__);
+	struct code_dev *dev = (struct code_dev *)filp->private_data;
+			printk("enter %s+++++\n", __func__);
+			printk("node:%x\n",dev->dev_num);
 	printk("cmd:%x\n",cmd);
 	switch (cmd)
 	{
-	case 0:
-	{
-		result = 0;
-	}
-		break;
-	case 1:
-	{
-		result = 1;
-	}
-		break;
 	case MEM_IOCSET:
 	{
 		for (i = 0; i < 20; i++)
@@ -164,7 +168,7 @@ static int	__init test_init(void)
 	unsigned int 	ret ;
 	unsigned char *virt_addr;
 	printk("enter %s+++++\n",__func__);
-   memset(&test_dev , 0 ,sizeof(test_dev)) ;
+	memset(&test_dev , 0 ,sizeof(test_dev)) ;
 	test_dev.dev_num = MKDEV(DRIVE_MAJOR, 0);
 	ret = register_chrdev_region(test_dev.dev_num , 1 ,DRIVE_NAME) ;
 	if(ret < 0)
@@ -185,17 +189,17 @@ static int	__init test_init(void)
 		return(ret) ;
 	}
 
-        testmap=(unsigned char *)kmalloc(4096,GFP_KERNEL);
-        kmalloc_area=(unsigned char *)(((unsigned long)testmap +PAGE_SIZE-1)&PAGE_MASK);
-        if(testmap==NULL)
-        {
-         printk("Kernel mem get pages error\n");
-        }
-        for(virt_addr=(unsigned long)kmalloc_area;(unsigned long)virt_addr<(unsigned long)kmalloc_area+4096;virt_addr+=PAGE_SIZE)
-           {
-           SetPageReserved(virt_to_page(virt_addr));
-           }
-        memset(testmap,'q',100);
+	testmap=(unsigned char *)kmalloc(4096,GFP_KERNEL);
+	kmalloc_area=(unsigned char *)(((unsigned long)testmap +PAGE_SIZE-1)&PAGE_MASK);
+	if(testmap==NULL)
+	{
+	 printk("Kernel mem get pages error\n");
+	}
+	for(virt_addr=(unsigned long)kmalloc_area;(unsigned long)virt_addr<(unsigned long)kmalloc_area+4096;virt_addr+=PAGE_SIZE)
+   {
+   SetPageReserved(virt_to_page(virt_addr));
+   }
+	memset(testmap,'q',100);
 	printk("Test drv reg success !\n") ;
 	printk("leave %s-----\n",__func__);
 	return 0 ;
