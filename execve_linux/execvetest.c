@@ -40,47 +40,63 @@ int main(void)
 	pid_t pid;
 	char * const argv[] =
 	{ "%U", "--user-data-dir=/home/Administrator/.chromiun", NULL };
+	char * const argv1[] =
+		{ "no", "hello advantech", NULL };
 	char *envp[] =
-	{ "PATH=.", NULL };
+	{ "PATH=.:/bin", NULL };
 	//exec把当前进程印象替换成新的程序文件，故调用进程被覆盖
 
 	printf("(1)\n");
+	//$PATH does't work,use file name with full path.
 	if ((pid = fork()) == 0)
 	{
 		printf("in child process execv......\n");
 		flag = execl("/bin/ls", "ls", "-al", "/etc/passwd", (char *) 0);
 		if (flag == -1)
+		{
 			perror("exec error!");
+			return 0;
+		}
 	}
 	waitpid(pid, NULL, 0);
+
 	if ((pid = fork()) == 0)
 	{
 		printf("in child process execv......\n");
 		flag = execl("ls", "ls", "-al", "/etc/passwd", (char *) 0);
 		if (flag == -1)
+		{
 			perror("exec error!");
+			return 0;
+		}
 	}
 	waitpid(pid, NULL, 0);
 
 	printf("(2)\n");
+	//pass different  environment
 	if ((pid = fork()) == 0)
 	{
+
 		printf("in child process execv......\n");
-		//启动chrome浏览器
-		flag = execle("/bin/ls", "ls", "-al", "/etc/passwd", NULL,envp);
-		//			flag = execv("./hello", argv);
+		flag = execle("hello", "ls", "-al", "/etc/passwd", NULL,envp);
 		if (flag == -1)
+		{
 			perror("exec error!");
+			return 0;
+		}
 	}
 	waitpid(pid, NULL, 0);
+
 	if ((pid = fork()) == 0)
 	{
 		printf("in child process execv......\n");
-		//启动chrome浏览器
-		flag = execle("ls", "ls", "-al", "/etc/passwd", NULL,envp);
-		//			flag = execv("./hello", argv);
+		char *envp[] ={ "PATH=/bin:/sbin", NULL };
+		flag = execle("hello", "ls", "-al", "/etc/passwd", NULL,envp);
 		if (flag == -1)
+		{
 			perror("exec error!");
+			return 0;
+		}
 	}
 	waitpid(pid, NULL, 0);
 
@@ -88,21 +104,24 @@ int main(void)
 	if ((pid = fork()) == 0)
 	{
 		printf("in child process execv......\n");
-		//启动chrome浏览器
 		flag = execv("hello", argv);
-//			flag = execv("./hello", argv);
 		if (flag == -1)
+		{
 			perror("exec error!");
+			return 0;
+		}
 	}
 	waitpid(pid, NULL, 0);
 
 	if ((pid = fork()) == 0)
 	{
 		printf("in child process execv......\n");
-		//启动chrome浏览器
-		flag = execv("./hello", argv);
+		flag = execv("./hello", argv1);
 		if (flag == -1)
+		{
 			perror("exec error!");
+			return 0;
+		}
 	}
 	waitpid(pid, NULL, 0);
 
@@ -115,7 +134,10 @@ int main(void)
 
 		flag = execve("hello", argv, envp);
 		if (flag == -1)
+		{
 			perror("exec error!");
+			return 0;
+		}
 	}
 	waitpid(pid, NULL, 0);
 
@@ -125,7 +147,10 @@ int main(void)
 		//envp变量的用
 		flag = execve("hello", argv, NULL);
 		if (flag == -1)
+		{
 			perror("exec error!");
+			return 0;
+		}
 	}
 	waitpid(pid, NULL, 0);
 
@@ -137,7 +162,10 @@ int main(void)
 		flag = execvp("./hello", argv);
 		//envp变量的用
 		if (flag == -1)
+		{
 			perror("exec error!");
+			return 0;
+		}
 	}
 	waitpid(pid, NULL, 0);
 
@@ -149,7 +177,10 @@ int main(void)
 		//执行ls命令
 		flag = execlp("ls", "-al", NULL);
 		if (flag == -1)
+		{
 			perror("exec error!");
+			return 0;
+		}
 	}
 	waitpid(pid, NULL, 0);
 
@@ -160,7 +191,10 @@ int main(void)
 		//执行ls命令
 		flag = execlp("ls", "-al", "-al", NULL);
 		if (flag == -1)
-			printf("exec error!\n");
+		{
+			perror("exec error!");
+			return 0;
+		}
 	}
 	waitpid(pid, NULL, 0);
 
