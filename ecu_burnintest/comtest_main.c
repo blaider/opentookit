@@ -87,6 +87,7 @@ void LOG(const char* ms, ...)
 	{ 0 };
 	time_t now;
 	struct tm *local;
+	FILE* file;
 
 	va_list args;
 	va_start(args, ms);
@@ -101,7 +102,7 @@ void LOG(const char* ms, ...)
 	sprintf(buffer, "%04d-%02d-%02d %02d:%02d:%02d %s", local->tm_year + 1900,
 			local->tm_mon, local->tm_mday, local->tm_hour, local->tm_min,
 			local->tm_sec, wzLog);
-	FILE* file = fopen("testResut.log", "a+");
+	file = fopen("testResut.log", "a+");
 	fwrite(buffer, 1, strlen(buffer), file);
 	fclose(file);
 
