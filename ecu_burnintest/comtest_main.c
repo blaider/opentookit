@@ -32,7 +32,8 @@
 #include <stdarg.h>
 #include <syslog.h>
 
-struct BaudRate{
+struct BaudRate
+{
 	int speed;
 	int bitmap;
 };
@@ -46,20 +47,20 @@ struct BaudRate baudlist[] =
 //{ 200, B200 },
 //{ 300, B300 },
 //{ 600, B600 },
-{ 1200, B1200 },
-{ 1800, B1800 },
-{ 2400, B2400 },
-{ 4800, B4800 },
-{ 9600, B9600 },
-{ 19200, B19200 },
-{ 38400, B38400 },
-{ 57600, B57600 },
-{ 115200, B115200 },
-{ 230400, B230400 },
-{ 460800, B460800 },
-{ 500000, B500000 },
-{ 576000, B576000 },
-{ 921600, B921600 },
+		{ 1200, B1200 },
+		{ 1800, B1800 },
+		{ 2400, B2400 },
+		{ 4800, B4800 },
+		{ 9600, B9600 },
+		{ 19200, B19200 },
+		{ 38400, B38400 },
+		{ 57600, B57600 },
+		{ 115200, B115200 },
+		{ 230400, B230400 },
+		{ 460800, B460800 },
+		{ 500000, B500000 },
+		{ 576000, B576000 },
+		{ 921600, B921600 },
 //{ 1000000, B1000000 },
 //{ 1152000, B1152000 },
 //{ 1500000, B1500000 },
@@ -68,7 +69,7 @@ struct BaudRate baudlist[] =
 //{ 3000000, B3000000 },
 //{ 3500000, B3500000 },
 //{ 4000000, B4000000 },
-};
+		};
 int comDatabits[] =
 { 5, 6, 7, 8 };
 int comStopbits[] =
@@ -78,40 +79,42 @@ int comParity[] =
 char g_comDevicesName[256][256];
 int g_comNums;
 
-void LOG(const char* ms, ... )
+void LOG(const char* ms, ...)
 {
-	char wzLog[1024] = {0};
-	char buffer[1024] = {0};
+	char wzLog[1024] =
+	{ 0 };
+	char buffer[1024] =
+	{ 0 };
+	time_t now;
+	struct tm *local;
+
 	va_list args;
 	va_start(args, ms);
-	vsprintf( wzLog ,ms,args);
+	vsprintf(wzLog, ms, args);
 	va_end(args);
 
-	time_t now;
 	time(&now);
-	struct tm *local;
 	local = localtime(&now);
-	printf("%04d-%02d-%02d %02d:%02d:%02d %s", local->tm_year+1900, local->tm_mon,
-			local->tm_mday, local->tm_hour, local->tm_min, local->tm_sec,
-			wzLog);
-	sprintf(buffer,"%04d-%02d-%02d %02d:%02d:%02d %s", local->tm_year+1900, local->tm_mon,
-				local->tm_mday, local->tm_hour, local->tm_min, local->tm_sec,
-				wzLog);
-	FILE* file = fopen("testResut.log","a+");
-	fwrite(buffer,1,strlen(buffer),file);
+	printf("%04d-%02d-%02d %02d:%02d:%02d %s", local->tm_year + 1900,
+			local->tm_mon, local->tm_mday, local->tm_hour, local->tm_min,
+			local->tm_sec, wzLog);
+	sprintf(buffer, "%04d-%02d-%02d %02d:%02d:%02d %s", local->tm_year + 1900,
+			local->tm_mon, local->tm_mday, local->tm_hour, local->tm_min,
+			local->tm_sec, wzLog);
+	FILE* file = fopen("testResut.log", "a+");
+	fwrite(buffer, 1, strlen(buffer), file);
 	fclose(file);
 
 //	syslog(LOG_INFO,wzLog);
-	return ;
+	return;
 }
 
-
-int set_com(int fd,int speed,int databits,int stopbits,int parity)
+int set_com(int fd, int speed, int databits, int stopbits, int parity)
 {
 	int i;
 	struct termios opt;
 
-	if( tcgetattr(fd ,&opt) != 0)
+	if (tcgetattr(fd, &opt) != 0)
 	{
 		perror("get attr failed!\n");
 		return -1;
@@ -152,44 +155,44 @@ int set_com(int fd,int speed,int databits,int stopbits,int parity)
 		return -1;
 	}
 
-	switch(parity)
+	switch (parity)
 	{
-		case 'n':
-		case 'N':
-			opt.c_cflag &= ~PARENB;
-			opt.c_iflag &= ~INPCK;
-			break;
-		case 'o':
-		case 'O':
-			opt.c_cflag |= (PARODD|PARENB);
-			opt.c_iflag |= INPCK;
-			break;
-		case 'e':
-		case 'E':
-			opt.c_cflag |= PARENB;
-			opt.c_cflag &= ~PARODD;
-			opt.c_iflag |= INPCK;
-			break;
-		default:
-			printf("Unsupported parity\n");
-			return -1;
+	case 'n':
+	case 'N':
+		opt.c_cflag &= ~PARENB;
+		opt.c_iflag &= ~INPCK;
+		break;
+	case 'o':
+	case 'O':
+		opt.c_cflag |= (PARODD | PARENB);
+		opt.c_iflag |= INPCK;
+		break;
+	case 'e':
+	case 'E':
+		opt.c_cflag |= PARENB;
+		opt.c_cflag &= ~PARODD;
+		opt.c_iflag |= INPCK;
+		break;
+	default:
+		printf("Unsupported parity\n");
+		return -1;
 	}
 
-	switch(stopbits)
+	switch (stopbits)
 	{
-		case 1:
-			opt.c_cflag &= ~CSTOPB;
-			break;
-		case 2:
-			opt.c_cflag |=  CSTOPB;
-			break;
-		default:
-			printf("Unsupported stop bits\n");
-			return -1;
+	case 1:
+		opt.c_cflag &= ~CSTOPB;
+		break;
+	case 2:
+		opt.c_cflag |= CSTOPB;
+		break;
+	default:
+		printf("Unsupported stop bits\n");
+		return -1;
 	}
 
 	opt.c_iflag &= ~(IXON | IXOFF | IXANY | BRKINT | ICRNL | INPCK | ISTRIP);
-	opt.c_lflag &=  ~(ICANON | ECHO | ECHOE | IEXTEN | ISIG);
+	opt.c_lflag &= ~(ICANON | ECHO | ECHOE | IEXTEN | ISIG);
 	opt.c_oflag &= ~OPOST;
 	opt.c_cc[VTIME] = 20;
 	opt.c_cc[VMIN] = 0;
@@ -205,8 +208,8 @@ int set_com(int fd,int speed,int databits,int stopbits,int parity)
 
 int OpenDev(char* Dev)
 {
-	int fd = open(Dev,O_RDWR | O_NOCTTY );
-	if( -1 == fd)
+	int fd = open(Dev, O_RDWR | O_NOCTTY);
+	if (-1 == fd)
 	{
 		perror("open failed!\n");
 		return -1;
@@ -215,7 +218,8 @@ int OpenDev(char* Dev)
 		return fd;
 }
 
-int openDevice(const char* Dev,int speed,int databits,int stopbits,int parity)
+int openDevice(const char* Dev, int speed, int databits, int stopbits,
+		int parity)
 {
 	int fd;
 	fd = open(Dev, O_RDWR | O_NOCTTY);
@@ -237,12 +241,13 @@ int isCom(const char * name)
 {
 	int fd;
 	int ret = 0;
+	struct termios opt;
 	fd = open(name, O_RDWR | O_NOCTTY);
 	if (-1 == fd)
 	{
 		return 0;;
 	}
-	struct termios opt;
+
 	if (tcgetattr(fd, &opt) == 0)
 	{
 		ret = 1;
@@ -259,7 +264,8 @@ int selfTest(const char *comName)
 	int fd;
 	int ret;
 	int strLen;
-	strcpy(devName,comName);
+
+	strcpy(devName, comName);
 	fd = openDevice(devName, 115200, 8, 1, 'n');
 	if (fd <= 0)
 	{
@@ -267,42 +273,42 @@ int selfTest(const char *comName)
 		return -1;
 	}
 	strLen = strlen(MSG1);
-	ret = write(fd,MSG1,strLen);
-	if(ret != strLen)
-		LOG("%s write '%s' failed--------\n",devName,MSG1);
-	memset(buf,0,sizeof(buf));
+	ret = write(fd, MSG1, strLen);
+	if (ret != strLen)
+		LOG("%s write '%s' failed--------\n", devName, MSG1);
+	memset(buf, 0, sizeof(buf));
 	ret = read(fd, buf, strlen(MSG1));
-	if(ret != strLen)
-		LOG("%s read '%s' failed--------\n",devName,MSG1);
+	if (ret != strLen)
+		LOG("%s read '%s' failed--------\n", devName, MSG1);
 
 	if (strcmp(buf, MSG1))
-		LOG("%s test %s failed--------\n",devName,MSG1);
+		LOG("%s test %s failed--------\n", devName, MSG1);
 	else
-		LOG("%s test %s success\n",devName,MSG1);
+		printf("%s test %s success\n", devName, MSG1);
 
 	strLen = strlen(MSG2);
 	ret = write(fd, MSG2, strLen);
 	if (ret != strLen)
 		LOG("%s write '%s' failed========\n", devName, MSG2);
-	memset(buf,0,sizeof(buf));
+	memset(buf, 0, sizeof(buf));
 	ret = read(fd, buf, strlen(MSG2));
 	if (ret != strLen)
 		LOG("%s read '%s' failed========\n", devName, MSG2);
 
 	if (strcmp(buf, MSG2))
-		LOG("%s test %s failed========\n",devName,MSG2);
+		LOG("%s test %s failed========\n", devName, MSG2);
 	else
-		LOG("%s test %s success\n",devName,MSG2);
+		printf("%s test %s success\n", devName, MSG2);
 	close(fd);
 
 	return 0;
 }
-void* allSelfTestThread( void* arg )
+void* allSelfTestThread(void* arg)
 {
-	int no = (int)arg;
+	int no = (int) arg;
 	char name[50];
-	sprintf(name,"/dev/ttyAP%u",no);
-	while(1)
+	sprintf(name, "/dev/ttyAP%u", no);
+	while (1)
 	{
 		selfTest(name);
 		sleep(1);
@@ -315,18 +321,18 @@ int comTest()
 {
 	pthread_t thread[COM_NUMS];
 	int i;
-	for(i=0;i<COM_NUMS;i++)
+	for (i = 0; i < COM_NUMS; i++)
 	{
-		pthread_create(&thread[i], NULL, allSelfTestThread,	(void*)i);
+		pthread_create(&thread[i], NULL, allSelfTestThread, (void*) i);
 	}
 	return 0;
 }
 void *comTestThread(void *arg)
 {
-	for(;;)
+	for (;;)
 	{
-		selfTest("/dev/ttyAS0");
-		selfTest("/dev/ttyAS1");
+		selfTest("/dev/ttyS0");
+		selfTest("/dev/ttyS1");
 		selfTest("/dev/ttyAP0");
 		selfTest("/dev/ttyAP1");
 		selfTest("/dev/ttyAP2");
@@ -341,15 +347,16 @@ void *comTestThread(void *arg)
 
 int get_system_memory_size(long *total)
 {
-	if (total == NULL)
-		return -1;
 
 	long ma;
 	FILE * fd;
 	char line[100];
 	char name[100];
+	if (total == NULL)
+			return -1;
+
 	fd = fopen("/proc/meminfo", "r");
-	if(fd == NULL)
+	if (fd == NULL)
 	{
 		perror("/proc/meminfo");
 		return -1;
@@ -368,14 +375,15 @@ int get_system_memory_size(long *total)
 }
 int get_system_memory_free(long *free)
 {
-	if (free == NULL)
-		return -1;
+
 	long ma;
 	FILE * fd;
 	char line[100];
 	char name[100];
+	if (free == NULL)
+		return -1;
 	fd = fopen("/proc/meminfo", "r");
-	if(fd == NULL)
+	if (fd == NULL)
 	{
 		perror("/proc/meminfo");
 		return -1;
@@ -395,34 +403,39 @@ int get_system_memory_free(long *free)
 }
 int memAlloc()
 {
-	long total,free;
+	long total, free;
+	long alloc;
+	char *buf;
 	get_system_memory_size(&total);
 	get_system_memory_free(&free);
-	long alloc = free - total*0.05;
-	char *buf =(char *) malloc(alloc);
+	alloc = free - total * 0.05;
+	buf = (char *) malloc(alloc);
 //	printf("total:%d,free:%d,alloc:%d\n",total,free,alloc);
-	if(buf != NULL)
-		memset(buf,0xa5,alloc);
+	if (buf != NULL)
+		memset(buf, 0xa5, alloc);
 	return 0;
 }
 
-int main(int argc, char *argv[] )
+int main(int argc, char *argv[])
 {
 	pthread_t handle;
+	int fd;
+	fd = open("/dev/tty1", O_RDWR);
+	write(fd, "\033[9;0]", 8);
+	close(fd);
+	fd = open("/dev/tty2", O_RDWR);
+	write(fd, "\033[9;0]", 8);
+	close(fd);
 
-	pthread_create(&handle, NULL, comTestThread,	NULL);
+	pthread_create(&handle, NULL, comTestThread, NULL);
 
 //	comTest();
 	sleep(10);
 	memAlloc();
-	while(1)
+	while (1)
 	{
 		;
 	}
 	return 0;
 }
-
-
-
-
 

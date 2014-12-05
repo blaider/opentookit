@@ -1,5 +1,5 @@
 ifdef CROSS_COMPILE
-CC := $(CROSS_COMPILE)gcc
+#CC := $(CROSS_COMPILE)gcc
 endif
 all:
-	$(CC) -Wall comtest_main.c -o AdvComTest -lpthread
+	$(CC) -Wall comtest_main.c -o BurnInTest-CSC -lpthread
