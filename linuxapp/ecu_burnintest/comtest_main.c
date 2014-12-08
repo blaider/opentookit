@@ -96,12 +96,10 @@ void LOG(const char* ms, ...)
 
 	time(&now);
 	local = localtime(&now);
-	printf("%04d-%02d-%02d %02d:%02d:%02d %s", local->tm_year + 1900,
-			local->tm_mon, local->tm_mday, local->tm_hour, local->tm_min,
-			local->tm_sec, wzLog);
 	sprintf(buffer, "%04d-%02d-%02d %02d:%02d:%02d %s", local->tm_year + 1900,
-			local->tm_mon, local->tm_mday, local->tm_hour, local->tm_min,
+			1 + local->tm_mon, local->tm_mday, local->tm_hour, local->tm_min,
 			local->tm_sec, wzLog);
+	printf("%s",buffer);
 	file = fopen("testResut.log", "a+");
 	fwrite(buffer, 1, strlen(buffer), file);
 	fclose(file);
