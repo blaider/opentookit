@@ -37,7 +37,7 @@ static inline void LOG(const char* ms, ... )
 	gettimeofday(&tv,NULL);
 	struct tm *local;
 	local = localtime(&tv.tv_sec);
-	sprintf(buffer,"%04d-%02d-%02d %02d:%02d:%02d.%06ld %s\n", local->tm_year+1900, local->tm_mon,
+	sprintf(buffer,"%04d-%02d-%02d %02d:%02d:%02d.%06ld %s\n", local->tm_year+1900, 1 + local->tm_mon,
 				local->tm_mday, local->tm_hour, local->tm_min, local->tm_sec,tv.tv_usec,
 				wzLog);
 	FILE* file = fopen("testResut.log","a+");
