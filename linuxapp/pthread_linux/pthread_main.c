@@ -4,11 +4,13 @@
 	> Mail: suchao.wang@advantech.com.cn 
 	> Created Time: Fri 28 Nov 2014 03:57:02 PM CST
  ************************************************************************/
-
+//#getconf GNU_LIBPTHREAD_VERSION
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <pthread.h>
 #include <semaphore.h>
+#include <signal.h>
 
 sem_t sem;
 void* ComReadThread( void* arg )
@@ -17,13 +19,25 @@ void* ComReadThread( void* arg )
 	printf("thread print\n");
 	sleep(5);
 	sem_post(&sem);
+	while(1)
+	{
+		sleep(1);
+	}
 	return NULL;
+}
+void sig_int(int no)
+{
+	pid_t pid = getpid();
+	printf("exit %d\n",pid);
+	exit(0);
+	return ;
 }
 int main(int argc,char *argv[])
 {
 
 	pthread_t m_hThread;
 
+	signal(SIGINT,sig_int);
 	if (sem_init(&sem, 0, 0) == -1)
 			return -1;
 	int error = pthread_create(&m_hThread, NULL, ComReadThread,NULL);
