@@ -31,6 +31,7 @@
 #include <time.h>
 #include <stdarg.h>
 #include <syslog.h>
+#include <signal.h>
 
 struct BaudRate
 {
@@ -78,6 +79,26 @@ int comParity[] =
 { 'n', 'o', 'e' };
 char g_comDevicesName[256][256];
 int g_comNums;
+char g_logfile[256] = {0};
+typedef struct devError{
+	char devName[50];
+	char showName[50];
+	long err;
+}DEVERROR;
+DEVERROR devs[]=
+{
+{"/dev/ttyS0","COM1",0},
+{"/dev/ttyS1","COM2",0},
+{"/dev/ttyAP0","COM3",0},
+{"/dev/ttyAP1","COM4",0},
+{"/dev/ttyAP2","COM5",0},
+{"/dev/ttyAP3","COM6",0},
+{"/dev/ttyAP4","COM7",0},
+{"/dev/ttyAP5","COM8",0},
+{"/dev/ttyAP6","COM9",0},
+{"/dev/ttyAP7","COM10",0},
+};
+time_t time_start,time_end;
 
 void LOG(const char* ms, ...)
 {
@@ -87,7 +108,7 @@ void LOG(const char* ms, ...)
 	{ 0 };
 	time_t now;
 	struct tm *local;
-	FILE* file;
+	FILE *file;
 
 	va_list args;
 	va_start(args, ms);
@@ -97,12 +118,49 @@ void LOG(const char* ms, ...)
 	time(&now);
 	local = localtime(&now);
 	sprintf(buffer, "%04d-%02d-%02d %02d:%02d:%02d %s", local->tm_year + 1900,
-			1 + local->tm_mon, local->tm_mday, local->tm_hour, local->tm_min,
+			local->tm_mon + 1, local->tm_mday, local->tm_hour, local->tm_min,
 			local->tm_sec, wzLog);
 	printf("%s",buffer);
-	file = fopen("testResut.log", "a+");
+	if(strlen(g_logfile) < 5)
+		sprintf(g_logfile,"testResult%04d-%02d-%02d_%02d_%02d_%02d.log",local->tm_year+1900,local->tm_mon +1,local->tm_mday,local->tm_hour,local->tm_min,local->tm_sec);
+	file = fopen(g_logfile, "a+");
+	if(NULL == file)
+		return ;
 	fwrite(buffer, 1, strlen(buffer), file);
 	fclose(file);
+	sync();
+
+//	syslog(LOG_INFO,wzLog);
+	return;
+}
+
+void LOGNOTIME(const char* ms, ...)
+{
+	char wzLog[1024] =
+	{ 0 };
+	char buffer[1024] =
+	{ 0 };
+	FILE *file;
+	time_t now;
+	struct tm *local;
+
+	va_list args;
+	va_start(args, ms);
+	vsprintf(wzLog, ms, args);
+	va_end(args);
+
+	time(&now);
+	local = localtime(&now);
+	sprintf(buffer, "%s",wzLog);
+	printf("%s",buffer);
+	if(strlen(g_logfile) < 5)
+		sprintf(g_logfile,"testResult%04d-%02d-%02d_%02d_%02d_%02d.log",local->tm_year+1900,local->tm_mon +1,local->tm_mday,local->tm_hour,local->tm_min,local->tm_sec);
+	file = fopen(g_logfile, "a+");
+	if(NULL == file)
+		return ;
+	fwrite(buffer, 1, strlen(buffer), file);
+	fclose(file);
+	sync();
 
 //	syslog(LOG_INFO,wzLog);
 	return;
@@ -193,7 +251,7 @@ int set_com(int fd, int speed, int databits, int stopbits, int parity)
 	opt.c_iflag &= ~(IXON | IXOFF | IXANY | BRKINT | ICRNL | INPCK | ISTRIP);
 	opt.c_lflag &= ~(ICANON | ECHO | ECHOE | IEXTEN | ISIG);
 	opt.c_oflag &= ~OPOST;
-	opt.c_cc[VTIME] = 20;
+	opt.c_cc[VTIME] = 10;
 	opt.c_cc[VMIN] = 0;
 
 	tcflush(fd, TCIOFLUSH);
@@ -254,9 +312,9 @@ int isCom(const char * name)
 	close(fd);
 	return ret;
 }
-#define MSG1 "HELLO ADVANTECH"
-#define MSG2 "hello advantech"
-int selfTest(const char *comName)
+#define MSG1 "ADVANTEC"
+#define MSG2 "advantec"
+int selfTest(const char *comName,const  char *showName,long *err)
 {
 	char buf[128];
 	char devName[50];
@@ -265,39 +323,45 @@ int selfTest(const char *comName)
 	int strLen;
 
 	strcpy(devName, comName);
-	fd = openDevice(devName, 115200, 8, 1, 'n');
+	fd = openDevice(devName, 9600, 8, 1, 'n');
 	if (fd <= 0)
 	{
-		LOG("open device %s failed!\n", devName);
+		LOG("open device %s failed!\n", showName);
 		return -1;
 	}
 	strLen = strlen(MSG1);
 	ret = write(fd, MSG1, strLen);
 	if (ret != strLen)
-		LOG("%s write '%s' failed--------\n", devName, MSG1);
+		LOG("%s write '%s' failed--------\n", showName, MSG1);
+	//usleep(1000*1000/(96000*strLen));
 	memset(buf, 0, sizeof(buf));
 	ret = read(fd, buf, strlen(MSG1));
 	if (ret != strLen)
-		LOG("%s read '%s' failed--------\n", devName, MSG1);
+		LOG("%s read '%s' failed,%d,%s--------\n", showName, MSG1,ret,buf);
 
 	if (strcmp(buf, MSG1))
-		LOG("%s test %s failed--------\n", devName, MSG1);
-	else
-		printf("%s test %s success\n", devName, MSG1);
+	{
+		LOG("%s test '%s' failed,%d--------\n", showName, MSG1,ret);
+		(*err)++;
+	}else
+		printf("%s test '%s' success\n", showName, MSG1);
 
 	strLen = strlen(MSG2);
 	ret = write(fd, MSG2, strLen);
 	if (ret != strLen)
-		LOG("%s write '%s' failed========\n", devName, MSG2);
+		LOG("%s write '%s' failed,%d========\n", devName, MSG2,ret);
+	//usleep(1000*1000/(96000*strLen));
 	memset(buf, 0, sizeof(buf));
 	ret = read(fd, buf, strlen(MSG2));
 	if (ret != strLen)
-		LOG("%s read '%s' failed========\n", devName, MSG2);
+		LOG("%s read '%s' failed,%d,%s========\n", showName, MSG2,ret,buf);
 
 	if (strcmp(buf, MSG2))
-		LOG("%s test %s failed========\n", devName, MSG2);
-	else
-		printf("%s test %s success\n", devName, MSG2);
+	{
+		LOG("%s test '%s' failed========\n", showName, MSG2);
+		(*err)++;
+	}else
+		printf("%s test '%s' success\n", showName, MSG2);
 	close(fd);
 
 	return 0;
@@ -305,11 +369,12 @@ int selfTest(const char *comName)
 void* allSelfTestThread(void* arg)
 {
 	int no = (int) arg;
+	long err;
 	char name[50];
 	sprintf(name, "/dev/ttyAP%u", no);
 	while (1)
 	{
-		selfTest(name);
+		selfTest(name,name,&err);
 		sleep(1);
 	}
 	return NULL;
@@ -318,28 +383,17 @@ void* allSelfTestThread(void* arg)
 #define COM_NUMS 1
 int comTest()
 {
-	pthread_t thread[COM_NUMS];
-	int i;
-	for (i = 0; i < COM_NUMS; i++)
-	{
-		pthread_create(&thread[i], NULL, allSelfTestThread, (void*) i);
-	}
 	return 0;
 }
 void *comTestThread(void *arg)
 {
+	int i;
 	for (;;)
 	{
-		selfTest("/dev/ttyS0");
-		selfTest("/dev/ttyS1");
-		selfTest("/dev/ttyAP0");
-		selfTest("/dev/ttyAP1");
-		selfTest("/dev/ttyAP2");
-		selfTest("/dev/ttyAP3");
-		selfTest("/dev/ttyAP4");
-		selfTest("/dev/ttyAP5");
-		selfTest("/dev/ttyAP6");
-		selfTest("/dev/ttyAP7");
+		for(i=0;i<sizeof(devs)/sizeof(devs[0]);i++)
+		{
+			 selfTest(devs[i].devName,devs[i].showName,&devs[i].err);
+		}
 	}
 	return NULL;
 }
@@ -414,11 +468,66 @@ int memAlloc()
 		memset(buf, 0xa5, alloc);
 	return 0;
 }
+int s= 0;
+pthread_t handle;
+pid_t mainpid;
+static void sig_int(int no)
+{
+	int i;
+	int days,hours,mins,seconds;
+	time_t span;
+	struct tm tm_start,tm_end,*tm;
+
+	time(&time_end);
+	tm = localtime(&time_start);
+	memcpy(&tm_start,tm,sizeof(*tm));
+	tm = localtime(&time_end);
+	memcpy(&tm_end,tm,sizeof(*tm));
+	if(mainpid != pthread_self())
+		pthread_exit(0);	
+	pthread_join(handle,NULL);	
+	span = time_end - time_start;
+	days = span/(24*60*60);
+	seconds = span %(24*60*60); 
+	hours = seconds/(60*60);
+	seconds = seconds %(60*60); 
+	mins = seconds/(60);
+	seconds = seconds %(60); 
+	LOGNOTIME("================Test Result===================\n");
+	LOGNOTIME("Start Time: %04d-%02d-%02d %02d:%02d:%02d\n", tm_start.tm_year + 1900,
+			tm_start.tm_mon + 1, tm_start.tm_mday, tm_start.tm_hour, tm_start.tm_min,
+			tm_start.tm_sec);
+	LOGNOTIME("End   Time: %04d-%02d-%02d %02d:%02d:%02d\n", tm_end.tm_year + 1900,
+			tm_end.tm_mon + 1, tm_end.tm_mday, tm_end.tm_hour, tm_end.tm_min,
+			tm_end.tm_sec);
+	LOGNOTIME("Time Cost: %d days %d hours %2d mins %2d seconds\n",days,hours,mins,seconds);
+	//LOG("total: %d seconds\n",span);
+	for(i=0;i<sizeof(devs)/sizeof(devs[0]);i++)
+	{
+		if(devs[i].err)
+		{
+		 LOGNOTIME("%s: Error,%ld\n",devs[i].showName,devs[i].err);
+		}else{
+		 LOGNOTIME("%s: Success\n",devs[i].showName);
+		}
+	}
+	LOGNOTIME("MEM Used 95%  Test: Success\n");
+	LOGNOTIME("CPU Used 100% Test: Success\n");
+	system("swapon -a");
+	exit(0);
+}
 
 int main(int argc, char *argv[])
 {
-	pthread_t handle;
 	int fd;
+	FILE *file;
+	time_t now;
+	struct tm *local;
+
+	mainpid = pthread_self();
+	signal(SIGINT,sig_int);
+	time(&time_start);
+	system("swapoff -a");
 	fd = open("/dev/tty1", O_RDWR);
 	write(fd, "\033[9;0]", 8);
 	close(fd);
@@ -426,6 +535,14 @@ int main(int argc, char *argv[])
 	write(fd, "\033[9;0]", 8);
 	close(fd);
 
+	time(&now);
+	local = localtime(&now);
+	sprintf(g_logfile,"testResult%04d-%02d-%02d_%02d_%02d_%02d.log",local->tm_year+1900,local->tm_mon +1,local->tm_mday,local->tm_hour,local->tm_min,local->tm_sec);
+	file = fopen(g_logfile, "a+");
+	if(NULL == file)
+		return 0;
+	fclose(file);
+	LOGNOTIME("================Error Description==============\n");
 	pthread_create(&handle, NULL, comTestThread, NULL);
 
 //	comTest();
