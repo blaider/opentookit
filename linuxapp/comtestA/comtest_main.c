@@ -29,12 +29,12 @@
 #include <pthread.h>
 #include <string.h>
 #include <time.h>
-#include <sys/time.h>
 #include <stdarg.h>
 #include <syslog.h>
 #include <signal.h>
 
-#define APP_VERSION "1.0.5"
+#define APP_VERSION "1.0.2"
+#define MAX_RUN_SECONDS 20
 struct BaudRate
 {
 	int speed;
@@ -82,7 +82,6 @@ int comParity[] =
 char g_comDevicesName[256][256];
 int g_comNums;
 char g_logfile[256] = {0};
-char g_sn[256] = {0};
 typedef struct devError{
 	char devName[50];
 	char showName[50];
@@ -102,44 +101,6 @@ DEVERROR devs[]=
 {"/dev/ttyAP7","COM10",0},
 };
 time_t time_start,time_end;
-
-
-void printRed(const char *msg)
-{
-	printf("\033[40;31m%s\033[0m",msg);
-	return;
-}
-void printGreen(const char *msg)
-{
-	printf("\033[40;32m%s\033[0m",msg);
-	return ;
-}
-void printPass()
-{
-	printGreen("\n");
-	printGreen("\t*******          *           ******        ******   \n");
-	printGreen("\t*      *        * *         *             *         \n");
-	printGreen("\t*      *       *   *        *             *         \n");
-	printGreen("\t*******       *     *         ******       ******   \n");
-	printGreen("\t*            *********              *            *  \n");
-	printGreen("\t*           *         *             *            *  \n");
-	printGreen("\t*          *           *     *******       ******   \n");
-	printGreen("\n");
-	return;
-}
-void printFailed()
-{
-	printRed("\n");
-	printRed("\t********        *         ***    *         ********   *********    \n");
-	printRed("\t*              * *         *     *         *          *        * \n");
-	printRed("\t*             *   *        *     *         *          *         *\n");
-	printRed("\t*******      *     *       *     *         ********   *         * \n");
-	printRed("\t*           *********      *     *         *          *         *  \n");
-	printRed("\t*          *         *     *     *         *          *        * \n");
-	printRed("\t*         *           *   ***    ********  ********   *********  \n");
-	printRed("\n");
-	return ;
-}
 
 void LOG(const char* ms, ...)
 {
@@ -590,10 +551,8 @@ static void sig_int(int no)
 	char sysinfo[256];
 	char command[256];
 	long memTotal;
-	int totalErr = 0;
 	struct tm tm_start,tm_end,*tm;
 
-	printf("%s:%d,%ld,%d,%d\n",__func__,no,pthread_self(),getpid(),getppid());
 	if(mainpid != pthread_self())
 	{
 		pthread_exit(0);
@@ -616,9 +575,7 @@ static void sig_int(int no)
 	LOGNOTIME("================BurnInTest-CSC Certificate=======\n");
 	LOGNOTIME("Report Date: %04d-%02d-%02d\n",tm_end.tm_year+1900,tm_end.tm_mon  +1,tm_end.tm_mday);
 	LOGNOTIME("Generateed by: BurnInTest-CSC %s\n",APP_VERSION);
-	LOGNOTIME("Environment Temperature : 40 degree\n");
 	LOGNOTIME("================System Summary===================\n");
-	LOGNOTIME("SN: %s\n",g_sn);
 	memset(sysinfo,0,sizeof(sysinfo));
 	get_osname(sysinfo);
 	LOGNOTIME("OS name: %s\n",sysinfo);
@@ -653,14 +610,6 @@ static void sig_int(int no)
 	system("swapon -a");
 	sprintf(command,"./ftpupdate.sh %s",g_logfile);
 	system(command);
-	for (i = 0; i < sizeof(devs) / sizeof(devs[0]); i++)
-	{
-		totalErr += devs[i].err;
-	}
-	if(totalErr)
-		printFailed();
-	else
-		printPass();
 	exit(0);
 }
 static void print_usage()
@@ -681,13 +630,12 @@ int parse_opt(int argc,char *argv[])
 {
 	int ch;
 	opterr = 0;
-	while((ch = getopt(argc,argv,"f:h:m:s:")) != -1)
+	while((ch = getopt(argc,argv,"f:h:m:")) != -1)
 	{
 		switch(ch)
 		{
 		case 'f':
 			sprintf(g_logfile,"%s.log",optarg);	
-			sprintf(g_sn,"%s",optarg);	
 			break;
 		case 'h':
 			run_seconds = strtoul(optarg,NULL,10);
@@ -696,9 +644,6 @@ int parse_opt(int argc,char *argv[])
 		case 'm':
 			run_seconds = strtoul(optarg,NULL,10);
 			run_seconds = run_seconds * 60;
-			break;
-		case 's':
-			run_seconds = strtoul(optarg,NULL,10);
 			break;
 		default:
 			print_usage();
@@ -712,7 +657,6 @@ int main(int argc, char *argv[])
 	int fd;
 	time_t now;
 	struct tm *local;
-	char command[256];
 	
 	if(argc < 5)
 	{
@@ -728,10 +672,9 @@ int main(int argc, char *argv[])
 
 	mainpid = pthread_self();
 	signal(SIGINT,sig_int);
-	//alarm(run_seconds);
+	signal(SIGALRM,sig_int);
+	alarm(run_seconds);
 	time(&time_start);
-	sprintf(command,"./timerkill %d %d",getpid(),run_seconds);
-	system(command);
 	system("swapoff -a");
 	fd = open("/dev/tty1", O_RDWR);
 	write(fd, "\033[9;0]", 8);

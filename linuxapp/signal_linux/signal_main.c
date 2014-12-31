@@ -10,6 +10,14 @@
 #include <unistd.h>
 #include <signal.h>
 
+pid_t selfpid;
+void sig_alarm(int intno)
+{
+	kill(selfpid,SIGINT);
+
+}
+
+
 void sig_int(int intno)
 {
 	printf("i will exit1\n");
@@ -17,14 +25,18 @@ void sig_int(int intno)
 	printf("i will exit3\n");
 	printf("i will exit4\n");
 	printf("i will exit5\n");
+	system("./ping.sh");
 	exit(0);
 }
 int main(int argc,char *argv[])
 {
 
 	signal(SIGINT,sig_int);
-	signal(SIGALRM,sig_int);
-	alarm(10);
+//	signal(SIGALRM,sig_alarm);
+//	alarm(10);
+	char buf[1024];
+	sprintf(buf,"./timerkill %d %d %s",getpid(),10);
+	system(buf);
 	while(1)
 	{
 		sleep(1);

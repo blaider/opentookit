@@ -3,3 +3,4 @@ ifdef CROSS_COMPILE
 endif
 all:
 	$(CC) -Wall signal_main.c -o signaltest
+	$(CC) -Wall timerkill.c -o timerkill
