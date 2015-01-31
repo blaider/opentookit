@@ -28,15 +28,11 @@
 #include <semaphore.h>
 #include <pthread.h>
 #include <string.h>
-#include <time.h>
-#include <sys/time.h>
-#include <stdarg.h>
-#include <syslog.h>
-#include <signal.h>
 
+#include <signal.h>
 #include "log.h"
 
-#define APP_VERSION "2.1.1"
+#define APP_VERSION "2.0.1"
 
 #ifndef SRCHOST
 #define SRCHOST "127.0.0.1"
@@ -96,7 +92,6 @@ int comParity[] =
 { 'n', 'o', 'e' };
 char g_comDevicesName[256][256];
 int g_comNums;
-//char g_logfile[256] = {0};
 char g_sn[256] = {0};
 typedef struct devError{
 	char devName[50];
@@ -116,7 +111,28 @@ DEVERROR devs[]=
 {"/dev/ttyAP6","COM9",0},
 {"/dev/ttyAP7","COM10",0},
 };
+typedef struct pairError{
+	char adevName[50];
+	char ashowName[50];
+	char bdevName[50];
+	char bshowName[50];
+	long err;
+}DEVPAIR;
+DEVPAIR pairs[]=
+{
+{"/dev/ttyS0","COM1","/dev/ttyS1","COM2",0},
+{"/dev/ttyS1","COM2","/dev/ttyS0","COM1",0},
+{"/dev/ttyAP0","COM3","/dev/ttyAP4","COM7",0},
+{"/dev/ttyAP4","COM7","/dev/ttyAP0","COM3",0},
+{"/dev/ttyAP1","COM4","/dev/ttyAP5","COM8",0},
+{"/dev/ttyAP5","COM8","/dev/ttyAP1","COM4",0},
+{"/dev/ttyAP2","COM5","/dev/ttyAP6","COM9",0},
+{"/dev/ttyAP6","COM9","/dev/ttyAP2","COM5",0},
+{"/dev/ttyAP3","COM6","/dev/ttyAP7","COM10",0},
+{"/dev/ttyAP7","COM10","/dev/ttyAP3","COM6",0},
+};
 time_t time_start,time_end;
+
 
 
 int set_com(int fd, int speed, int databits, int stopbits, int parity)
@@ -265,6 +281,50 @@ int isCom(const char * name)
 	close(fd);
 	return ret;
 }
+#define MSG "ABCDEFGH"
+int pairTest(DEVPAIR *pair)
+{
+//	char MSG[] = {1,2,3,4,5,6,7,8,9,0};
+	int ret;
+	char buf[256];
+	int fd1,fd2;
+	int idx;
+//	time_t old,new;
+//	old = time(NULL);
+
+
+	fd1 = openDevice(pair->adevName,9600 , 8, 1, 'n');
+	if (fd1 <= 0)
+	{
+		printf("open device %s failed!\n", pair->adevName);
+		exit(1);
+	}
+
+	fd2 = openDevice(pair->bdevName, 9600, 8, 1, 'n');
+	if (fd2 <= 0)
+	{
+		printf("open device %s failed!\n", pair->bdevName);
+		exit(1);
+	}
+
+	write(fd1,MSG,sizeof(MSG));
+//	usleep(1000000/speed*(4+databits)*sizeof(MSG)*2);
+
+	memset(buf, 0, sizeof(buf));
+	idx = 0;
+	ret = read(fd2, buf, sizeof(MSG));
+	idx += ret;
+	if(strncmp(MSG,buf,sizeof(MSG)) != 0){
+		LOG("Test %s -> %s fail\n",pair->ashowName,pair->bshowName);
+		pair->err++;
+	}else{
+		printf("Test %s -> %s OK\n",pair->ashowName,pair->bshowName);
+	}
+
+	close(fd1);
+	close(fd2);
+	return 0;
+}
 #define MSG1 "ADVANTEC"
 #define MSG2 "advantec"
 int selfTest(const char *comName,const  char *showName,long *err)
@@ -337,6 +397,18 @@ void* allSelfTestThread(void* arg)
 int comTest()
 {
 	return 0;
+}
+void *comPairTestThread(void *arg)
+{
+	int i;
+	for (;;)
+	{
+		for(i=0;i<sizeof(pairs)/sizeof(pairs[0]);i++)
+		{
+			 pairTest(&pairs[i]);
+		}
+	}
+	return NULL;
 }
 void *comTestThread(void *arg)
 {
@@ -523,7 +595,7 @@ static void sig_alarm(int no)
 	sem_post(&m_hEvent);
 	return;
 }
-static void sig_int(int no)
+static void sig_intpair(int no)
 {
 	int i;
 	int days,hours,mins,seconds;
@@ -541,10 +613,11 @@ static void sig_int(int no)
 	{
 		pthread_exit(0);
 		return ;
-	}	
+	}
 	sem_post(&m_hEvent);
 	pthread_kill(handle,SIGINT);
-	pthread_join(handle,NULL);	
+//	pthread_kill(handle_ping,SIGINT);
+	pthread_join(handle,NULL);
 	pthread_join(handle_ping,NULL);
 	time(&time_end);
 	tm = localtime(&time_start);
@@ -584,13 +657,13 @@ static void sig_int(int no)
 			tm_end.tm_sec);
 	LOGNOTIME("Time Duration: %d days %d hours %2d mins %2d seconds\n",days,hours,mins,seconds);
 	//LOG("total: %d seconds\n",span);
-	for(i=0;i<sizeof(devs)/sizeof(devs[0]);i++)
+	for(i=0;i<sizeof(pairs)/sizeof(pairs[0]);i++)
 	{
-		if(devs[i].err)
+		if(pairs[i].err)
 		{
-		 LOGNOTIME("%s: Error,%ld\n",devs[i].showName,devs[i].err);
+		 LOGNOTIME("%s -> %s: Error,%ld\n",pairs[i].ashowName,pairs[i].bshowName,pairs[i].err);
 		}else{
-		 LOGNOTIME("%s: Pass\n",devs[i].showName);
+		 LOGNOTIME("%s -> %s: Pass\n",pairs[i].ashowName,pairs[i].bshowName);
 		}
 	}
 	uiSend = g_stPktStatic.uiSendPktNum;
@@ -610,9 +683,9 @@ static void sig_int(int no)
 	system("swapon -a");
 	sprintf(command,"./ftpupdate.sh %s",g_logfile);
 	system(command);
-	for (i = 0; i < sizeof(devs) / sizeof(devs[0]); i++)
+	for (i = 0; i < sizeof(pairs) / sizeof(pairs[0]); i++)
 	{
-		totalErr += devs[i].err;
+		totalErr += pairs[i].err;
 	}
 	if(totalErr)
 		printFailed();
@@ -688,8 +761,10 @@ int main(int argc, char *argv[])
 
 	
 	mainpid = pthread_self();
-	signal(SIGINT,sig_int);
+	//signal(SIGINT,sig_int);
+	signal(SIGINT,sig_intpair);
 	signal(SIGALRM,sig_alarm);
+
 	//alarm(run_seconds);
 	time(&time_start);
 	sprintf(command,"./timerkill %d %d",getpid(),run_seconds);
@@ -705,7 +780,8 @@ int main(int argc, char *argv[])
 	time(&now);
 	local = localtime(&now);
 	LOGNOTIME("=================================================\n");
-	pthread_create(&handle, NULL, comTestThread, NULL);
+//	pthread_create(&handle, NULL, comTestThread, NULL);
+	pthread_create(&handle, NULL, comPairTestThread, NULL);
 	if (sem_init(&m_hEvent, 0, 0) == -1)
 			return 2;
 	if(run_seconds -PING_WAIT*2 > 0)
@@ -718,6 +794,7 @@ int main(int argc, char *argv[])
 	memAlloc();
 	while (1)
 	{
+//		selfping("172.21.67.1");
 		;
 	}
 	return 0;
