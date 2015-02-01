@@ -104,12 +104,32 @@ unsigned short calcIcmpChkSum(const void *pPacket, int iPktLen)
 	}
 	if (1 == iPktLen)
 	{
-		usChkSum += *((char *) pusOffset);
+		usChkSum += *((unsigned char *) pusOffset);
 	}
 	usChkSum = (usChkSum >> 16) + (usChkSum & 0xffff);
 	usChkSum += (usChkSum >> 16);
 
-	return ~usChkSum;
+	return (unsigned short)(~usChkSum);
+}
+unsigned short checksum(unsigned short *buffer,int size)
+{
+
+    unsigned long cksum=0;
+    //将数据以字为单位累加到CKSUM中
+    while(size>1)
+    {
+        cksum+=*buffer++;
+        size-=sizeof(unsigned short);
+    }
+    //如果为奇数，将最后一个字节扩展到双字，再累加到cksum中
+    if(size)
+    {
+        cksum+=*(unsigned char *)buffer;
+    }
+    //将cksum的高16位和低16位相加，取反后得到校验和
+    cksum=(cksum>>16)+(cksum&0xffff);
+    cksum+=(cksum>>16);
+    return (unsigned short)(~cksum);
 }
 
 /* ICMP*/
@@ -124,7 +144,8 @@ int newIcmpEcho(const int iPacketNum, const int iDataLen)
 	pstIcmp->icmp_seq = htons((unsigned short) iPacketNum);
 	pstIcmp->icmp_id = htons((unsigned short) getpid());
 	pstIcmp->icmp_cksum = 0;
-	pstIcmp->icmp_cksum = calcIcmpChkSum(pstIcmp, iDataLen + 8);
+//	pstIcmp->icmp_cksum = calcIcmpChkSum(pstIcmp, iDataLen + 8);
+	pstIcmp->icmp_cksum = checksum((unsigned short *)pstIcmp, iDataLen + 8);
 	return iDataLen + 8;
 }
 
@@ -186,7 +207,7 @@ void recvIcmp(const int fd)
 			if (EAGAIN == errno)
 			{
 				/* */
-				LOG("Ping %s Request time out.\n",DSTHOST);
+				LOG("Ping %s seq=%u Request time out.\n",DSTHOST,g_stPktStatic.uiSendPktNum);
 				g_stPktStatic.fMaxTime = ~0;
 			}
 			else
@@ -227,7 +248,7 @@ void recvIcmp(const int fd)
 /* ICMP */
 void sendIcmp(const int fd, const struct sockaddr_in *pstDestAddr)
 {
-	unsigned char ucEchoNum = g_stPktStatic.uiSendPktNum;
+	unsigned int ucEchoNum = g_stPktStatic.uiSendPktNum;
 	int iPktLen = 0;
 	int iRet = 0;
 
@@ -256,6 +277,14 @@ void sendIcmp(const int fd, const struct sockaddr_in *pstDestAddr)
 
 int setip( char const * if_name ,const char * ipaddr)
 {
+	char buf[256];
+	sprintf(buf,"ifconfig %s down",if_name);
+	system(buf);
+	sleep(1);
+	sprintf(buf,"ifconfig %s %s netmask 255.255.255.0 up",if_name,ipaddr);
+	system(buf);
+	return 0;
+	/*
     int sock_set_ip;
 
     struct sockaddr_in sin_set_ip;
@@ -296,7 +325,7 @@ int setip( char const * if_name ,const char * ipaddr)
     }
 
     close( sock_set_ip );
-    return 0;
+    return 0;*/
 }
 /**/
 int selfping(const char *ipaddr)

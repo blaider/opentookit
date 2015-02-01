@@ -32,7 +32,7 @@
 #include <signal.h>
 #include "log.h"
 
-#define APP_VERSION "2.0.1"
+#define APP_VERSION "2.0.2"
 
 #ifndef SRCHOST
 #define SRCHOST "127.0.0.1"

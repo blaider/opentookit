@@ -36,7 +36,7 @@
 
 #include "log.h"
 
-#define APP_VERSION "2.1.1"
+#define APP_VERSION "2.1.2"
 
 #ifndef SRCHOST
 #define SRCHOST "127.0.0.1"
