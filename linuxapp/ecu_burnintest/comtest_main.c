@@ -34,22 +34,7 @@
 #include <syslog.h>
 #include <signal.h>
 
-#include "log.h"
-
-#define APP_VERSION "2.1.1"
-
-#ifndef SRCHOST
-#define SRCHOST "127.0.0.1"
-#endif
-#ifndef DSTHOST
-#define DSTHOST "127.0.0.1"
-#endif
-#ifndef NETCARD
-#define NETCARD "eth0"
-#endif
-
-#define PING_WAIT 120
-
+#define APP_VERSION "1.0.5"
 struct BaudRate
 {
 	int speed;
@@ -96,7 +81,7 @@ int comParity[] =
 { 'n', 'o', 'e' };
 char g_comDevicesName[256][256];
 int g_comNums;
-//char g_logfile[256] = {0};
+char g_logfile[256] = {0};
 char g_sn[256] = {0};
 typedef struct devError{
 	char devName[50];
@@ -118,6 +103,109 @@ DEVERROR devs[]=
 };
 time_t time_start,time_end;
 
+
+void printRed(const char *msg)
+{
+	printf("\033[40;31m%s\033[0m",msg);
+	return;
+}
+void printGreen(const char *msg)
+{
+	printf("\033[40;32m%s\033[0m",msg);
+	return ;
+}
+void printPass()
+{
+	printGreen("\n");
+	printGreen("\t*******          *           ******        ******   \n");
+	printGreen("\t*      *        * *         *             *         \n");
+	printGreen("\t*      *       *   *        *             *         \n");
+	printGreen("\t*******       *     *         ******       ******   \n");
+	printGreen("\t*            *********              *            *  \n");
+	printGreen("\t*           *         *             *            *  \n");
+	printGreen("\t*          *           *     *******       ******   \n");
+	printGreen("\n");
+	return;
+}
+void printFailed()
+{
+	printRed("\n");
+	printRed("\t********        *         ***    *         ********   *********    \n");
+	printRed("\t*              * *         *     *         *          *        * \n");
+	printRed("\t*             *   *        *     *         *          *         *\n");
+	printRed("\t*******      *     *       *     *         ********   *         * \n");
+	printRed("\t*           *********      *     *         *          *         *  \n");
+	printRed("\t*          *         *     *     *         *          *        * \n");
+	printRed("\t*         *           *   ***    ********  ********   *********  \n");
+	printRed("\n");
+	return ;
+}
+
+void LOG(const char* ms, ...)
+{
+	char wzLog[1024] =
+	{ 0 };
+	char buffer[1024] =
+	{ 0 };
+	time_t now;
+	struct tm *local;
+	FILE *file;
+
+	va_list args;
+	va_start(args, ms);
+	vsprintf(wzLog, ms, args);
+	va_end(args);
+
+	time(&now);
+	local = localtime(&now);
+	sprintf(buffer, "%04d-%02d-%02d %02d:%02d:%02d %s", local->tm_year + 1900,
+			local->tm_mon + 1, local->tm_mday, local->tm_hour, local->tm_min,
+			local->tm_sec, wzLog);
+	printf("%s",buffer);
+	if(strlen(g_logfile) < 1)
+		sprintf(g_logfile,"testResult%04d-%02d-%02d_%02d_%02d_%02d.log",local->tm_year+1900,local->tm_mon +1,local->tm_mday,local->tm_hour,local->tm_min,local->tm_sec);
+	file = fopen(g_logfile, "a+");
+	if(NULL == file)
+		return ;
+	fwrite(buffer, 1, strlen(buffer), file);
+	fclose(file);
+	sync();
+
+//	syslog(LOG_INFO,wzLog);
+	return;
+}
+
+void LOGNOTIME(const char* ms, ...)
+{
+	char wzLog[1024] =
+	{ 0 };
+	char buffer[1024] =
+	{ 0 };
+	FILE *file;
+	time_t now;
+	struct tm *local;
+
+	va_list args;
+	va_start(args, ms);
+	vsprintf(wzLog, ms, args);
+	va_end(args);
+
+	time(&now);
+	local = localtime(&now);
+	sprintf(buffer, "%s",wzLog);
+	printf("%s",buffer);
+	if(strlen(g_logfile) < 1)
+		sprintf(g_logfile,"testResult%04d-%02d-%02d_%02d_%02d_%02d.log",local->tm_year+1900,local->tm_mon +1,local->tm_mday,local->tm_hour,local->tm_min,local->tm_sec);
+	file = fopen(g_logfile, "a+");
+	if(NULL == file)
+		return ;
+	fwrite(buffer, 1, strlen(buffer), file);
+	fclose(file);
+	sync();
+
+//	syslog(LOG_INFO,wzLog);
+	return;
+}
 
 int set_com(int fd, int speed, int databits, int stopbits, int parity)
 {
@@ -493,36 +581,7 @@ int memAlloc()
 }
 int s= 0;
 pthread_t handle;
-pthread_t handle_ping;
 pid_t mainpid;
-sem_t m_hEvent;
-void *pingThread(void *arg)
-{
-	int i=PING_WAIT;
-	setip(NETCARD,SRCHOST);
-	g_stPktStatic.uiSendPktNum = 0;
-	g_stPktStatic.uiRcvPktNum = 0;
-	g_stPktStatic.fMinTime = 1000000.0;
-	g_stPktStatic.fMaxTime = -1.0;
-	g_stPktStatic.fArgTime = 0.0;
-	while(sem_trywait(&m_hEvent) && i>0)
-	{
-		sleep(1);
-		i--;
-	}
-
-	while(sem_trywait(&m_hEvent))
-	{
-		selfping(DSTHOST);
-		sleep(1);
-	}
-	return NULL;
-}
-static void sig_alarm(int no)
-{
-	sem_post(&m_hEvent);
-	return;
-}
 static void sig_int(int no)
 {
 	int i;
@@ -533,19 +592,15 @@ static void sig_int(int no)
 	long memTotal;
 	int totalErr = 0;
 	struct tm tm_start,tm_end,*tm;
-	unsigned int uiSend, uiRecv;
-	float fpass=0;
 
-//	printf("%s:%d,%ld,%d,%d\n",__func__,no,pthread_self(),getpid(),getppid());
+	printf("%s:%d,%ld,%d,%d\n",__func__,no,pthread_self(),getpid(),getppid());
 	if(mainpid != pthread_self())
 	{
 		pthread_exit(0);
 		return ;
 	}	
-	sem_post(&m_hEvent);
 	pthread_kill(handle,SIGINT);
 	pthread_join(handle,NULL);	
-	pthread_join(handle_ping,NULL);
 	time(&time_end);
 	tm = localtime(&time_start);
 	memcpy(&tm_start,tm,sizeof(*tm));
@@ -593,20 +648,8 @@ static void sig_int(int no)
 		 LOGNOTIME("%s: Pass\n",devs[i].showName);
 		}
 	}
-	uiSend = g_stPktStatic.uiSendPktNum;
-	uiRecv = g_stPktStatic.uiRcvPktNum;
-	fpass= (uiRecv+0.0001)/(uiSend+0.0001)*100;
 	LOGNOTIME("MEM Used 95%  Test: Pass\n");
 	LOGNOTIME("CPU Used 100% Test: Pass\n");
-	printf("ping %s send %u,recv %u,lost %u,pass rate:%.2f%%\n",DSTHOST,uiSend,uiRecv,uiSend-uiRecv,fpass);
-	if(fpass > 95)
-	{
-		LOGNOTIME("Ping %s Test: Pass\n",DSTHOST);
-	}
-	else{
-		LOGNOTIME("Ping %s Test: Error,lost=%.2f%\n",DSTHOST,(100-fpass));
-		totalErr++;
-	}
 	system("swapon -a");
 	sprintf(command,"./ftpupdate.sh %s",g_logfile);
 	system(command);
@@ -670,7 +713,6 @@ int main(int argc, char *argv[])
 	time_t now;
 	struct tm *local;
 	char command[256];
-	FILE *file;
 	
 	if(argc < 5)
 	{
@@ -683,13 +725,9 @@ int main(int argc, char *argv[])
 		print_usage();
 		exit(0);
 	}
-	file = fopen(g_logfile,"wt");
-	fclose(file);
 
-	
 	mainpid = pthread_self();
 	signal(SIGINT,sig_int);
-	signal(SIGALRM,sig_alarm);
 	//alarm(run_seconds);
 	time(&time_start);
 	sprintf(command,"./timerkill %d %d",getpid(),run_seconds);
@@ -706,13 +744,6 @@ int main(int argc, char *argv[])
 	local = localtime(&now);
 	LOGNOTIME("=================================================\n");
 	pthread_create(&handle, NULL, comTestThread, NULL);
-	if (sem_init(&m_hEvent, 0, 0) == -1)
-			return 2;
-	if(run_seconds -PING_WAIT*2 > 0)
-	{
-		pthread_create(&handle_ping, NULL, pingThread, NULL);
-		alarm(run_seconds -PING_WAIT);
-	}
 
 	sleep(10);
 	memAlloc();

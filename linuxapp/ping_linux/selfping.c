@@ -19,7 +19,7 @@
 
 #define E_FAILD_FD 			-1
 #define ICMP_DATA_LEN 		20 /*  */
-#define ICMP_ECHO_MAX		10/* ECHO-REQUEST */
+#define ICMP_ECHO_MAX		4 /* ECHO-REQUEST */
 #define ICMP_REQUEST_TIMEOUT 2 /*  */
 
 /* ICMP  */
@@ -132,8 +132,7 @@ int parseIcmp(const struct sockaddr_in *pstFromAddr, char *pRecvBuf,
 	if ((pstIcmpReply->icmp_type != ICMP_ECHOREPLY)
 			|| (pstIcmpReply->icmp_id != htons((unsigned short) getpid())))
 	{
-//		printf("other:%d,%d,%d,%d,%d\n",ntohs(pstIcmpReply->icmp_seq),pstIcmpReply->icmp_type , ICMP_ECHOREPLY,pstIcmpReply->icmp_id , htons((unsigned short) getpid()));
-		return -2;
+		return -1;
 	}
 	sleep(1);
 	printf("%d bytes reply from %s: icmp_seq=%u Time=%dms TTL=%d\n", iIcmpLen,
@@ -154,55 +153,45 @@ void recvIcmp(const int fd)
 	{ 0 };
 
 	/* �� */
-	do
+	memset(aucRecvBuf, 0, 1024 * 1024);
+	iRecvLen = recvfrom(fd, (void *) aucRecvBuf, sizeof(aucRecvBuf), 0,
+			(struct sockaddr *) &stFromAddr, &fromLen);
+	gettimeofday(&stRcvTime, NULL);
+	if (0 > iRecvLen)
 	{
-
-		memset(aucRecvBuf, 0, 1024 * 1024);
-		iRecvLen = recvfrom(fd, (void *) aucRecvBuf, sizeof(aucRecvBuf), 0,
-				(struct sockaddr *) &stFromAddr, &fromLen);
-//		printf("receive new data %d\n",iRecvLen);
-		gettimeofday(&stRcvTime, NULL);
-		if (0 > iRecvLen)
+		if (EAGAIN == errno)
 		{
-			if (EAGAIN == errno)
-			{
-				/* */
-				printf("Request time out.\n");
-				g_stPktStatic.fMaxTime = ~0;
-			}
-			else
-			{
-				/*  */
-				perror("[Error]ICMP Receive");
-			}
-//			printf("recv 0");
-			return;
+			/* */
+			printf("Request time out.\n");
+			g_stPktStatic.fMaxTime = ~0;
 		}
-		/*   */
-
-		uiInterval = timeSub(&stRcvTime, &stSendTime);
-		g_stPktStatic.fArgTime = (g_stPktStatic.fArgTime
-				* (g_stPktStatic.uiSendPktNum - 1) + uiInterval)
-				/ g_stPktStatic.uiSendPktNum;
-		if (uiInterval < g_stPktStatic.fMinTime)
+		else
 		{
-			g_stPktStatic.fMinTime = uiInterval;
+			/*  */
+			perror("[Error]ICMP Receive");
 		}
-		if (uiInterval > g_stPktStatic.fMaxTime)
-		{
-			g_stPktStatic.fMaxTime = uiInterval;
-		}
-		/* ICMP */
-		iRet = parseIcmp(&stFromAddr, (char *) aucRecvBuf, iRecvLen);
-		if (-2 == iRet)
-		{
-			continue;
-		}else if(1 == iRet){
-//			printf("success \n");
-			g_stPktStatic.uiRcvPktNum++;
-		}
-		break;
-	}while(1);
+		return;
+	}
+	/*   */
+	g_stPktStatic.uiRcvPktNum++;
+	uiInterval = timeSub(&stRcvTime, &stSendTime);
+	g_stPktStatic.fArgTime = (g_stPktStatic.fArgTime
+			* (g_stPktStatic.uiSendPktNum - 1) + uiInterval)
+			/ g_stPktStatic.uiSendPktNum;
+	if (uiInterval < g_stPktStatic.fMinTime)
+	{
+		g_stPktStatic.fMinTime = uiInterval;
+	}
+	if (uiInterval > g_stPktStatic.fMaxTime)
+	{
+		g_stPktStatic.fMaxTime = uiInterval;
+	}
+	/* ICMP */
+	iRet = parseIcmp(&stFromAddr, (char *) aucRecvBuf, iRecvLen);
+	if (0 > iRet)
+	{
+		return;
+	}
 }
 
 /* ICMP */
@@ -219,7 +208,6 @@ void sendIcmp(const int fd, const struct sockaddr_in *pstDestAddr)
 		g_stPktStatic.uiSendPktNum++;
 		gettimeofday(&stSendTime, NULL);
 		/* ICMPECHO */
-		printf("send [%d]",ucEchoNum);
 		iRet = sendto(fd, aucSendBuf, iPktLen, 0,
 				(struct sockaddr *) pstDestAddr, sizeof(struct sockaddr_in));
 		if (0 > iRet)
@@ -303,7 +291,7 @@ int main(int argc, char *argv[])
 	{
 		memcpy((char *)&stDestAddr.sin_addr, (char *)&stHostAddr, sizeof(stHostAddr));
 	}
-	printf("\nPING %s(%s): %d bytes in ICMP packetsn\n", argv[1],
+	printf("nPING %s(%s): %d bytes in ICMP packetsn\n", argv[1],
 			inet_ntoa(stDestAddr.sin_addr), ICMP_DATA_LEN);
 	/*ICMP*/
 	sendIcmp(fd, &stDestAddr);

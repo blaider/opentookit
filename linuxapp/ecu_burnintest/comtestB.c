@@ -300,10 +300,10 @@ int pairTest(DEVERROR deva,DEVERROR devb,int speed,int databits,int stopbits,int
 
 int main(int argc, char *argv[] )
 {
-	pairTest(devs[8],devs[4],115200,8,1,'n');
-	pairTest(devs[4],devs[8],115200,8,1,'n');
-	pairTest(devs[9],devs[5],115200,8,1,'n');
-	pairTest(devs[5],devs[9],115200,8,1,'n');
+	pairTest(devs[2],devs[3],115200,8,1,'n');
+	pairTest(devs[3],devs[2],115200,8,1,'n');
+	pairTest(devs[4],devs[5],115200,8,1,'n');
+	pairTest(devs[5],devs[4],115200,8,1,'n');
 	return 0;
 }
 
