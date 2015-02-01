@@ -16,6 +16,25 @@
 #include <netinet/ip_icmp.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <net/if.h>
+#include <netinet/if_ether.h>
+#include <netinet/in.h>
+#include <netinet/ip.h>
+#include <netinet/udp.h>
+#include <netpacket/packet.h>
+#include <sys/ioctl.h>
+#include <unistd.h>
+#include <string.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <limits.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include "log.h"
+
+#ifndef DSTHOST
+#define DSTHOST ""
+#endif
 
 #define E_FAILD_FD 			-1
 #define ICMP_DATA_LEN 		20 /*  */
@@ -27,14 +46,14 @@ static unsigned char aucSendBuf[1024 * 1024] ={ 0 };
 static unsigned char aucRecvBuf[1024 * 1024] ={ 0 };
 
 /*  */
-typedef struct tagIcmpStatic
-{
-	unsigned int uiSendPktNum;
-	unsigned int uiRcvPktNum;
-	float fMinTime;
-	float fMaxTime;
-	float fArgTime;
-} ICMP_STATIC_S;
+//typedef struct tagIcmpStatic
+//{
+//	unsigned int uiSendPktNum;
+//	unsigned int uiRcvPktNum;
+//	float fMinTime;
+//	float fMaxTime;
+//	float fArgTime;
+//} ICMP_STATIC_S;
 
 /*  */
 ICMP_STATIC_S g_stPktStatic; /* ICMP */
@@ -135,7 +154,7 @@ int parseIcmp(const struct sockaddr_in *pstFromAddr, char *pRecvBuf,
 //		printf("other:%d,%d,%d,%d,%d\n",ntohs(pstIcmpReply->icmp_seq),pstIcmpReply->icmp_type , ICMP_ECHOREPLY,pstIcmpReply->icmp_id , htons((unsigned short) getpid()));
 		return -2;
 	}
-	sleep(1);
+//	sleep(1);
 	printf("%d bytes reply from %s: icmp_seq=%u Time=%dms TTL=%d\n", iIcmpLen,
 			inet_ntoa(pstFromAddr->sin_addr), ntohs(pstIcmpReply->icmp_seq),
 			timeSub(&stRcvTime, &stSendTime), pstIp->ip_ttl);
@@ -167,7 +186,7 @@ void recvIcmp(const int fd)
 			if (EAGAIN == errno)
 			{
 				/* */
-				printf("Request time out.\n");
+				LOG("Ping %s Request time out.\n",DSTHOST);
 				g_stPktStatic.fMaxTime = ~0;
 			}
 			else
@@ -208,18 +227,20 @@ void recvIcmp(const int fd)
 /* ICMP */
 void sendIcmp(const int fd, const struct sockaddr_in *pstDestAddr)
 {
-	unsigned char ucEchoNum = 0;
+	unsigned char ucEchoNum = g_stPktStatic.uiSendPktNum;
 	int iPktLen = 0;
 	int iRet = 0;
 
-	while (ICMP_ECHO_MAX > ucEchoNum)
+//	while (ICMP_ECHO_MAX > ucEchoNum)
+//	while(sem_trywait(&m_hEvent))
+	do
 	{
 		iPktLen = newIcmpEcho(ucEchoNum, ICMP_DATA_LEN);
 		/*  */
 		g_stPktStatic.uiSendPktNum++;
 		gettimeofday(&stSendTime, NULL);
 		/* ICMPECHO */
-		printf("send [%d]",ucEchoNum);
+//		printf("send [%d]",ucEchoNum);
 		iRet = sendto(fd, aucSendBuf, iPktLen, 0,
 				(struct sockaddr *) pstDestAddr, sizeof(struct sockaddr_in));
 		if (0 > iRet)
@@ -229,12 +250,56 @@ void sendIcmp(const int fd, const struct sockaddr_in *pstDestAddr)
 		}
 		/*  */
 		recvIcmp(fd);
-		ucEchoNum++;
-	}
+//		ucEchoNum++;
+	}while(0);
 }
 
+int setip( char const * if_name ,const char * ipaddr)
+{
+    int sock_set_ip;
+
+    struct sockaddr_in sin_set_ip;
+    struct ifreq ifr_set_ip;
+
+    bzero( &ifr_set_ip,sizeof(ifr_set_ip));
+
+    if( ipaddr == NULL )
+        return -1;
+
+    sock_set_ip = socket( AF_INET, SOCK_STREAM, 0 );
+    if(sock_set_ip < 0)
+    {
+        LOG("NetdeviceInfo::SetIP,socket create fail!");
+       return -1;
+    }
+
+    memset( &sin_set_ip, 0, sizeof(sin_set_ip));
+    strncpy(ifr_set_ip.ifr_name, if_name, sizeof(ifr_set_ip.ifr_name)-1);
+
+    sin_set_ip.sin_family = AF_INET;
+    sin_set_ip.sin_addr.s_addr = inet_addr(ipaddr);
+    memcpy( &ifr_set_ip.ifr_addr, &sin_set_ip, sizeof(sin_set_ip));
+
+    if( ioctl( sock_set_ip, SIOCSIFADDR, &ifr_set_ip) < 0 )
+    {
+        return -1;
+    }
+
+    //设置激活标志
+    ifr_set_ip.ifr_flags |= IFF_UP |IFF_RUNNING;
+
+    //get the status of the device
+    if( ioctl( sock_set_ip, SIOCSIFFLAGS, &ifr_set_ip ) < 0 )
+    {
+         perror("");
+         return -1;
+    }
+
+    close( sock_set_ip );
+    return 0;
+}
 /**/
-int main(int argc, char *argv[])
+int selfping(const char *ipaddr)
 {
 	int iRet = 0;
 	int iRcvBufSize = 1024 * 1024;
@@ -245,18 +310,7 @@ int main(int argc, char *argv[])
 	struct hostent *pHost = NULL;
 	struct sockaddr_in stDestAddr =	{ 0 };
 	struct protoent *pProtoIcmp = NULL;
-	g_stPktStatic.uiSendPktNum = 0;
-	g_stPktStatic.uiRcvPktNum = 0;
-	g_stPktStatic.fMinTime = 1000000.0;
-	g_stPktStatic.fMaxTime = -1.0;
-	g_stPktStatic.fArgTime = 0.0;
 
-	/**/
-	if (2 > argc)
-	{
-		printf("\nUsage:%s hostname/IP address\n", argv[0]);
-		return -1;
-	}
 	/* ICMP */
 	pProtoIcmp = getprotobyname("icmp");
 	if (NULL == pProtoIcmp)
@@ -286,11 +340,11 @@ int main(int argc, char *argv[])
 			sizeof(struct timeval));
 
 	/*  */
-	stHostAddr = inet_addr(argv[1]);
+	stHostAddr = inet_addr(ipaddr);
 	if (INADDR_NONE == stHostAddr)
 	{
 		/* IP */
-		pHost = gethostbyname(argv[1]);
+		pHost = gethostbyname(ipaddr);
 		if (NULL == pHost)
 		{
 			perror("[Error]Host Name Error");
@@ -303,13 +357,13 @@ int main(int argc, char *argv[])
 	{
 		memcpy((char *)&stDestAddr.sin_addr, (char *)&stHostAddr, sizeof(stHostAddr));
 	}
-	printf("\nPING %s(%s): %d bytes in ICMP packetsn\n", argv[1],
-			inet_ntoa(stDestAddr.sin_addr), ICMP_DATA_LEN);
+//	printf("\nPING %s(%s): %d bytes in ICMP packetsn\n", ipaddr,
+//			inet_ntoa(stDestAddr.sin_addr), ICMP_DATA_LEN);
 	/*ICMP*/
 	sendIcmp(fd, &stDestAddr);
 
 	/*  */
-	showStatic(&g_stPktStatic);
+//	showStatic(&g_stPktStatic);
 	/* FD */
 	close(fd);
 	return 0;

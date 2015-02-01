@@ -252,7 +252,8 @@ int openDevice(const char* Dev,int speed,int databits,int stopbits,int parity)
 
 	return fd;
 }
-#define MSG "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+//#define MSG "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+#define MSG "ABCDEFGH"
 int pairTest(DEVERROR deva,DEVERROR devb,int speed,int databits,int stopbits,int parity)
 {
 //	char MSG[] = {1,2,3,4,5,6,7,8,9,0};
@@ -300,6 +301,12 @@ int pairTest(DEVERROR deva,DEVERROR devb,int speed,int databits,int stopbits,int
 
 int main(int argc, char *argv[] )
 {
+	pairTest(devs[0],devs[1],115200,8,1,'n');
+	pairTest(devs[1],devs[0],115200,8,1,'n');
+	pairTest(devs[8],devs[4],115200,8,1,'n');
+	pairTest(devs[4],devs[8],115200,8,1,'n');
+	pairTest(devs[9],devs[5],115200,8,1,'n');
+	pairTest(devs[5],devs[9],115200,8,1,'n');
 	pairTest(devs[6],devs[2],115200,8,1,'n');
 	pairTest(devs[2],devs[6],115200,8,1,'n');
 	pairTest(devs[7],devs[3],115200,8,1,'n');
