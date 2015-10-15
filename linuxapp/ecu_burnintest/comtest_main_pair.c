@@ -32,7 +32,7 @@
 #include <signal.h>
 #include "log.h"
 
-#define APP_VERSION "2.0.2"
+#define APP_VERSION "2.0.3"
 
 #ifndef SRCHOST
 #define SRCHOST "127.0.0.1"
@@ -674,7 +674,7 @@ static void sig_intpair(int no)
 	printf("ping %s send %u,recv %u,lost %u,pass rate:%.2f%%\n",DSTHOST,uiSend,uiRecv,uiSend-uiRecv,fpass);
 	if(fpass > 95)
 	{
-		LOGNOTIME("Ping %s Test: Pass\n",DSTHOST);
+		LOGNOTIME("LAN Test: Pass\n");
 	}
 	else{
 		LOGNOTIME("Ping %s Test: Error,lost=%.2f%\n",DSTHOST,(100-fpass));

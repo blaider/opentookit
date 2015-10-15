@@ -10,6 +10,7 @@
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>
+#include <fcntl.h>
 
 void skipline(FILE *f)
 {
@@ -17,6 +18,56 @@ void skipline(FILE *f)
   do {
     ch = getc(f);
   } while ( ch != '\n' && ch != EOF );
+}
+
+#define FILENAME "/etc/lantraffic"
+int month;
+unsigned int total;
+int saveTraffic()
+{
+	char buf[100];
+	memset(buf,0,sizeof(buf));
+	sprintf(buf,"%02d %u\n",month,total);
+	int fd = open(FILENAME,O_WRONLY|O_CREAT);
+	if(fd < 0)
+		return -1;
+	write(fd,buf,strlen(buf));
+	close(fd);
+	sync();
+	return 0;
+}
+int loadTraffic()
+{
+	int mon;
+	unsigned int tot;
+	char buf[100];
+	memset(buf,0,sizeof(buf));
+	int fd = open(FILENAME,O_RDONLY);
+	if(fd < 0)
+		return -1;
+	int readn = read(fd,buf,sizeof(buf));
+	close(fd);
+	if (readn > 4)
+	{
+		time_t timer;
+		struct tm *tblock;
+		timer = time(NULL);
+		tblock = localtime(&timer);
+		sscanf(buf, "%d %u", &mon, &tot);
+		printf("%d,%u,%d\n", mon, tot,tblock->tm_mon);
+
+		if (tblock->tm_mon + 1 == mon)
+		{
+			month = mon;
+			total = tot;
+		}
+		else
+		{
+			total = 0;
+			month = tblock->tm_mon + 1;
+		}
+	}
+	return 0;
 }
 
 int main(int argc, char *argv[])
@@ -78,10 +129,13 @@ int main(int argc, char *argv[])
       bout += (1ULL << 32);
 
     if ( !first ) {
-      printf("time:%ld transmit:%10Lu receive:%10Lu\n", time(NULL), (bout-lbout), (bin-lbin));
+      printf("%s=time:%ld tx:%10u rx:%10u transmit:%10Lu receive:%10Lu\n",ifc.name, time(NULL),ifc.x_bytes,ifc.r_bytes, (bout-lbout), (bin-lbin));
       fflush(stdout);
+      total  += (bout-lbout)+(bin-lbin);
+      saveTraffic();
     } else {
       first = 0;
+      loadTraffic();
     }
 
     lbin = bin;  lbout = bout;
