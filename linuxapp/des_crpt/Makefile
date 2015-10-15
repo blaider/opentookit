@@ -1,2 +1,2 @@
 all:
-	$(CC) -Wall -o cpuinfo cpuinfo.c
+	$(CC) -Wall -o cpuinfo cpuinfo.c -lcrypt
