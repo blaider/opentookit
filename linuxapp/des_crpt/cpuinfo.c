@@ -89,7 +89,8 @@ int main(int argc, char *argv[])
 
     char key[] = {65, 68, 65, 77, 51, 54, 48, 48,0};
     char iv[] = {114, 100, 97, 98, 106, 49, 53, 55,0};
-    char da[] =   {5, 236, 234, 163, 54, 157, 138, 110, 205, 144, 8, 236, 109, 164, 67, 117,0};
+//    char da[] =   {5, 236, 234, 163, 54, 157, 138, 110, 205, 144, 8, 236, 109, 164, 67, 117,0};
+    char da[] = "q7kGYOSigT0=";
     sprintf(data,da);
     char pkey[9];
     char piv[9];
@@ -100,7 +101,7 @@ int main(int argc, char *argv[])
     printf("%d,%s\n",stat, data);
     showbuf(data,strlen(data)+8);
    //user password crypt
-    printf("code:%s\n",crypt("123456", "th9hLv8/RSRa."));
+    printf("code:%s\n",crypt("1", "th9hLv8/RSRa."));
     /*
     * echo -n 04fMaWegkH1/BL9CNYxgusFpYK8wdraBX06mPiRmxJP+uVm31GQvyw== | base64 -d | ./des
     * should be "cea3e8e1659582206e0be32539729e9f"

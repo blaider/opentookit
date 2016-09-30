@@ -188,9 +188,9 @@ int main(int argc, char *argv[])
     		return 0;
   	}
   	sprintf (dev1, "%s", argv[1]);
-  	sprintf (rts, "%s", argv[2]);
-  	sprintf (tx, "%s", argv[3]);
-  	sprintf (sendidx, "%s", argv[4]);
+//  	sprintf (rts, "%s", argv[2]);
+//  	sprintf (tx, "%s", argv[3]);
+//  	sprintf (sendidx, "%s", argv[4]);
 
 
 	vrts=(char *)TIOCM_RTS;

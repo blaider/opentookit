@@ -146,4 +146,5 @@ int main()
 		sleep(1);
 	}
 	close(fd_kbd);
+	return 0;
 }

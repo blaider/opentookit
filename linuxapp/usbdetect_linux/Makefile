@@ -1,2 +1,2 @@
 all:
-	$(CC) -Wall -o usbdetec lan_traffic.c
+	$(CC) -Wall -o usbdetec usb_detect.c
