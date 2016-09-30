@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VersionInfo>
+  <Kernel>Linux 3.12.10-rt15-ti2013.12.01</Kernel>
+  <File type="app" name="ActiveConnection" description="" version="1.0.2" revision="4828"/>
+  <File type="app" name="DNP3Daemon" description="" version="1.0.2" revision="4828"/>
+  <File type="app" name="DataLogger" description="" version="1.0.2" revision="4828"/>
+  <File type="app" name="sysmon" description="" version="1.0.2" revision="4828"/>
+  <File type="app" name="DataCollector" description="" version="1.0.2" revision="4828"/>
+  <File type="app" name="CalcTag" description="" version="1.0.2" revision="4828"/>
+  <File type="app" name="AdvSystemTag" description="" version="1.0.2" revision="4828"/>
+  <File type="app" name="DataCenter" description="" version="1.0.2" revision="4828"/>
+  <File type="app" name="AdvSystemSetting" description="" version="" revision=""/>
+  <File type="app" name="GPRSTrafficMonitor" description="" version="1.0.2" revision="4828"/>
+  <File type="app" name="WebService" description="" version="1.0.2" revision="4828"/>
+  <File type="app" name="AdvAgentMain" description="" version="" revision=""/>
+  <File type="app" name="AdvWirelessCheckd" description="" version="1.0.2" revision="4828M"/>
+  <File type="app" name="ModbusDaemon" description="" version="1.0.2" revision="4828"/>
+  <File type="app" name="AdvUDBackup" description="" version="1.0.2" revision="4828"/>
+  <File type="app" name="AdvUserTag" description="" version="1.0.2" revision="4828"/>
+  <File type="app" name="AdvProgramMgr" description="" version="" revision=""/>
+  <File type="app" name="eclr" description="" version="1.0.2" revision="4828"/>
+  <File type="app" name="wdtd" description="" version="1.0.2" revision="4828"/>
+  <File type="app" name="AdvBurnInTest" description="" version="1.0.2" revision="4828"/>
+  <File type="so" name="acm_WhereIAm.so" description="" version="1.0.2" revision="4828"/>
+  <File type="so" name="wsm_SystemInfo.so" description="" version="1.0.2" revision="4828"/>
+  <File type="so" name="mod_icdmanager.so" description="" version="1.0.2" revision="4828"/>
+  <File type="so" name="acm_FourFaithPROT.so" description="" version="1.0.2" revision="4828"/>
+  <File type="so" name="wsm_DataCenter.so" description="" version="1.0.2" revision="4828"/>
+  <File type="so" name="mod_devicemgr.so" description="" version="1.0.2" revision="4828"/>
+  <File type="so" name="mod_projectmgr.so" description="" version="" revision=""/>
+  <File type="so" name="wsm_IODriver.so" description="" version="1.0.2" revision="4828"/>
+  <File type="so" name="libWSL.so" description="" version="1.0.2" revision="4828"/>
+  <File type="so" name="libBoardResource.so" description="" version="1.0.2" revision="4828"/>
+  <File type="so" name="libBwTcpip.so" description="" version="1.0.2" revision="4828"/>
+  <File type="so" name="libicdm.so" description="" version="1.0.2" revision="4828"/>
+  <File type="so" name="libodbc.so" description="" version="" revision=""/>
+  <File type="so" name="libModbus.so" description="" version="1.0.2" revision="4828"/>
+  <File type="so" name="libxml2.so" description="" version="" revision=""/>
+  <File type="so" name="libDataLoggerSDK.so" description="" version="1.0.2" revision="4828"/>
+  <File type="so" name="libz.so" description="" version="" revision=""/>
+  <File type="so" name="libbio3600.so" description="" version="1.0.3" revision="4789"/>
+  <File type="so" name="libExpat.so" description="" version="1.0.2" revision="4828"/>
+  <File type="so" name="libadvcommon.so" description="" version="1.0.2" revision="4828"/>
+  <File type="so" name="libltdl.so" description="" version="" revision=""/>
+  <File type="so" name="libexprtk.so" description="" version="1.0.2" revision="3576"/>
+  <File type="so" name="libKWIO.so" description="" version="1.0.2" revision="4828"/>
+  <File type="so" name="libAPAL.so" description="" version="1.0.2" revision="4828"/>
+  <File type="so" name="libfcgi.so" description="" version="" revision=""/>
+  <File type="so" name="libDCTag.so" description="" version="1.0.2" revision="4828"/>
+  <File type="so" name="DevWebAccess.so" description="" version="1.0.2" revision="4828"/>
+  <File type="so" name="PortSerialXBee.so" description="" version="1.0.2" revision="4828"/>
+  <File type="so" name="DevODBC.so" description="" version="1.0.2" revision="4828"/>
+  <File type="so" name="PortApiStd.so" description="" version="1.0.2" revision="4828"/>
+  <File type="so" name="wad_DL645_07.so" description="" version="1.0.2" revision="4828"/>
+  <File type="so" name="PortTcpipStd.so" description="" version="1.0.2" revision="4828"/>
+  <File type="so" name="DevADAM3600.so" description="" version="1.0.2" revision="4828"/>
+  <File type="so" name="wad_DL645_97.so" description="" version="1.0.2" revision="4828"/>
+  <File type="so" name="PortSerialStd.so" description="" version="1.0.2" revision="4828"/>
+  <File type="so" name="wad_MOD_DEV.so" description="" version="1.0.2" revision="4828"/>
+  <File type="ko" name="adam3600io.ko" description="" version="1.0.2" revision="4789"/>
+  <Firm module="0" type="mcu" magic="ADAM-3600">01010165</Firm>
+  <Firm module="0" type="aio" magic="ADAM3600AI">01010124</Firm>
+  <Firm module="0" type="icdm" magic="ICDMANAGER">01010147</Firm>
+</VersionInfo>
