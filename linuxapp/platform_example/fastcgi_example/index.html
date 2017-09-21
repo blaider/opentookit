@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<script>
+			function httpGetAsync(theUrl, callback)
+			{
+				var xmlHttp = new XMLHttpRequest();
+				xmlHttp.onreadystatechange = function()
+				{ 
+					if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+						callback(xmlHttp.responseText);
+				}
+				xmlHttp.open("GET", theUrl+"&"+"t="+Math.random(), true); // true for asynchronous 
+				xmlHttp.send(null);
+			}
+
+			function processData(responseText) 
+			{
+				var tags = eval( "(" + responseText + ")" );
+
+				var tbl = document.getElementById("tag_table");
+
+				tbl.innerHTML = "";
+
+				for ( var tag in tags )
+				{
+					var tr;
+					var td;
+
+					tr = document.createElement("tr");
+
+					td = document.createElement("td");
+					td.innerHTML = tag;
+					tr.appendChild( td );
+
+					td = document.createElement("td");
+					td.innerHTML = tags[tag].value;
+					tr.appendChild( td );
+
+					td = document.createElement("td");
+					td.innerHTML = tags[tag].quality;
+					tr.appendChild( td );
+
+					td = document.createElement("td");
+					td.innerHTML = tags[tag].timestamp;
+					tr.appendChild( td );
+
+					tbl.appendChild( tr );
+				}
+			}
+
+			function onTimer()
+			{
+				httpGetAsync("/ext", processData);
+			}
+
+			var timer = window.setInterval(onTimer,1000); 
+		</script>
+	</head>
+	<body>
+		<table border="1">
+			<caption>Example: System Tag</caption>
+			<thead>
+				<tr>
+					<th>Tag Name</th>
+					<th>Value</th>
+					<th>Quality</th>
+					<th>TimeStamp</th>
+				</tr>
+			</thead>
+			<tbody  id="tag_table">
+			</tbody>
+		</table>
+	</body>
+</html>
