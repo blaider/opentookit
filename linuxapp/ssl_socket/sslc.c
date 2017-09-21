@@ -6,6 +6,7 @@
 #include <sys/socket.h>
 #include <resolv.h>
 #include <netdb.h>
+#include <signal.h>
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 #define FAIL    -1
@@ -99,11 +100,19 @@ void LoadCertificates(SSL_CTX* ctx, char* CertFile, char* KeyFile)
 	}
 	printf("LoadCertificates Compleate Successfully.....\n");
 }
+SSL *ssl;
+
+void sig_int(int sig)
+{
+	SSL_free(ssl); /* release connection state */
+
+}
+
 int main( int count, char*strings[])
 {
 	SSL_CTX *ctx;
 	int server;
-	SSL *ssl;
+
 	char buf[1024];
 	int bytes;
 	char*hostname, *portnum;
@@ -112,6 +121,7 @@ int main( int count, char*strings[])
 		printf("usage: %s <hostname> <portnum>\n", strings[0]);
 		exit(0);
 	}
+	signal(SIGINT,sig_int);
 	SSL_library_init();
 	hostname = strings[1];
 	portnum = strings[2];
@@ -137,7 +147,9 @@ int main( int count, char*strings[])
 		printf("Connected with %s encryption\n", SSL_get_cipher(ssl));
 		ShowCerts(ssl); /* get any certs */
 		SSL_write(ssl, msg, sizeof(msg)); /* encrypt & send message */
-		while(1)
+//		SSL_shutdown(ssl);
+//		SSL_free(ssl);
+		while(0)
 		{
 			bytes = SSL_read(ssl, buf, sizeof(buf));/* get reply & decrypt */
 			if(bytes > 0)
@@ -148,7 +160,10 @@ int main( int count, char*strings[])
 					printf("%02x ",buf[i]&0xff);
 				printf("\n");
 			}else if(bytes < 0)
+			{
+				ERR_print_errors_fp(stderr);
 				break;
+			}
 			sleep(1);
 			SSL_write(ssl, msg, sizeof(msg)); /* encrypt & send message */
 		}

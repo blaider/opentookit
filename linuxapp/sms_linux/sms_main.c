@@ -577,7 +577,7 @@ int main()
 	int fd;
 	char choice;
 	struct message_info info;
-	fd = open("/dev/ttyUSB6", O_RDWR | O_NOCTTY | O_NDELAY);
+	fd = open("/dev/ttyUSB2", O_RDWR | O_NOCTTY | O_NDELAY);
 	if (-1 == fd)
 	{
 		perror("Can't Open Serial Port");
@@ -585,7 +585,6 @@ int main()
 	serial_init(fd);
 	printf("\n============================================\n");
 	printf("\tthis is a gprs test program !\n");
-	printf("\tcopyright fj@farsight 2011\n");
 	printf("============================================\n");
 	printf("enter your selete :\n");
 	printf("1.send english message.\n");

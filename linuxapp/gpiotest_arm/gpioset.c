@@ -74,17 +74,26 @@ int initGPIO()
 
 	return 0;
 }
-int restartUSB()
+int restartUSB(int on)
 {
+	int i=2;
 	gpio_clear(viraddr,15);
-	usleep(100*1000);
+	while(i--)
+	{
+		system("lsusb");
+		sleep(1);
+	}
+	if(on)
 	gpio_set(viraddr,15);
 	return 0;
 
 }
-int main()
+int main(int argc,char *argv[])
 {
+	int on = 0;
+	if(argc >=2)
+		on = atoi(argv[1]);
 	initGPIO();
-	restartUSB();
+	restartUSB(on);
 	return 0;
 }

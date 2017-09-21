@@ -7,6 +7,8 @@
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <resolv.h>
+#include <sys/resource.h>
+#include <signal.h>
 #include "openssl/ssl.h"
 #include "openssl/err.h"
 #define FAIL    -1
@@ -119,7 +121,14 @@ void Servlet(SSL* ssl)/* Serve the connection -- threadable */
 			buf[bytes] = 0;
 			printf("Client msg: \"%s\"\n", buf);
 			sprintf(reply, HTMLecho, buf); /* construct reply */
-			SSL_write(ssl, reply, strlen(reply));/* send reply */
+			sleep(5);
+			int r = SSL_write(ssl, reply, strlen(reply));/* send reply */
+			printf("%s,1r = %d\n",__func__,r);
+			r = SSL_write(ssl, reply, strlen(reply));/* send reply */
+			printf("%s,2r = %d\n",__func__,r);
+			sleep(5);
+			r = SSL_write(ssl, reply, strlen(reply));/* send reply */
+			printf("%s,3r = %d\n",__func__,r);
 		}
 		else
 			ERR_print_errors_fp(stderr);
@@ -128,11 +137,22 @@ void Servlet(SSL* ssl)/* Serve the connection -- threadable */
 	SSL_free(ssl); /* release SSL state */
 	close(sd); /* close connection */
 }
+
+void sigpipe_handle(int x)
+{
+    printf("broken pipe\n");
+}
+
 int main( int count, char*strings[])
 {
 	SSL_CTX *ctx;
 	int server;
 	char*portnum;
+	struct rlimit rlim;
+		rlim.rlim_cur = 1024*1024;
+		rlim.rlim_max = 1024*1024;
+		setrlimit( RLIMIT_CORE, &rlim );
+		signal(SIGPIPE, SIG_IGN);
 	if (count != 2)
 	{
 		printf("Usage: %s <portnum>\n", strings[0]);
@@ -145,8 +165,8 @@ int main( int count, char*strings[])
 	SSL_library_init();
 	portnum = strings[1];
 	ctx = InitServerCTX(); /* initialize SSL */
-	LoadCertificates(ctx, "/home/root/certificate.pem",
-			"/home/root/privatekey.pem"); /* load certs */
+	LoadCertificates(ctx, "certificate.pem",
+			"privatekey.pem"); /* load certs */
 	server = OpenListener(atoi(portnum)); /* create server socket */
 	while (1)
 	{
@@ -158,6 +178,9 @@ int main( int count, char*strings[])
 				ntohs(addr.sin_port));
 		ssl = SSL_new(ctx); /* get new SSL state with context */
 		SSL_set_fd(ssl, client); /* set connection socket to SSL state */
+		printf("get mode:%ld\n",SSL_get_mode( ssl ));
+		SSL_set_mode(ssl,SSL_MODE_AUTO_RETRY);
+		printf("get mode:%ld\n",SSL_get_mode( ssl ));
 		Servlet(ssl); /* service connection */
 	}
 	close(server); /* close server socket */

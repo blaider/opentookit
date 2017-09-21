@@ -22,7 +22,9 @@
 MODULE_LICENSE("GPL");
 
 static int __init hello_init(void) {
+		char *buf = NULL;
         printk(KERN_ALERT "Hello world!\n");
+        *buf = 1;
         return 0;
 }
 
