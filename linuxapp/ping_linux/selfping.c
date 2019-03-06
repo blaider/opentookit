@@ -234,7 +234,7 @@ void sendIcmp(const int fd, const struct sockaddr_in *pstDestAddr)
 }
 
 /**/
-int main(int argc, char *argv[])
+int mains(int argc, char *argv[])
 {
 	int iRet = 0;
 	int iRcvBufSize = 1024 * 1024;

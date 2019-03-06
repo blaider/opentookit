@@ -204,17 +204,22 @@ int main(int argc, char *argv[])
 	char dev1[12] = "           ";
 	char sendidx[2] = " ";
 	
+	if(argc < 3)
+	{
+		printf("stbytest /dev/ttyS0 1\n");
+		return -1;
+	}
+
   	sprintf (dev1, "%s", argv[1]);
   	sprintf (rts, "%s", argv[2]);
 //  	sprintf (tx, "%s", argv[3]);
 //  	sprintf (sendidx, "%s", argv[4]);
 
 
+
 	vrts=(char *)(TIOCM_RTS|TIOCM_DTR);
 	
 	mac_port = open_data_port(dev1, B38400, 0);
-
-	return 0;
 
 	if (mac_port < 0)
 	{
@@ -242,14 +247,14 @@ int main(int argc, char *argv[])
 		{		
 
 			printf("[MAC] in %s,[%08x]\n", dev1,getval);
-			printf("DSR is %d\n",  getval & TIOCM_LE? 0: 1);
-			printf("DCD is %d\n", getval & TIOCM_CAR? 0: 1);
+//			printf("DSR is %d\n",  getval & TIOCM_LE? 0: 1);
+//			printf("DCD is %d\n", getval & TIOCM_CAR? 0: 1);
 			printf("CTS is %d\n", getval & TIOCM_CTS? 0: 1);
 
 			printf("RTS is %d\n",  getval & TIOCM_RTS? 0: 1);
-			printf("DTR is %d\n", getval & TIOCM_DTR? 0: 1);
-			printf("TX is %d\n", getval & TIOCM_ST? 0: 1);
-			printf("RX is %d\n", getval & TIOCM_SR? 0: 1);
+//			printf("DTR is %d\n", getval & TIOCM_DTR? 0: 1);
+//			printf("TX is %d\n", getval & TIOCM_ST? 0: 1);
+//			printf("RX is %d\n", getval & TIOCM_SR? 0: 1);
 
 		}
 		usleep(1000000);	  	

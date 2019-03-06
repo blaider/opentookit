@@ -113,7 +113,7 @@ int disableMulti(int fd)
 	printf("nwrite=%d,%s\n", nwrite, buff);
 
 	memset(reply, 0, sizeof(reply));
-	sleep(1);
+	sleep(3);
 	nread = read(fd, reply, sizeof(reply));
 	printf("nread=%d,%s\n", nread, reply);
 	return 0;
@@ -180,7 +180,7 @@ int send(int fd, char *cmgf, char *cmgs, char *message)
 	printf("nwrite=%d,%s\n", nwrite, buff);
 
 	memset(reply, 0, sizeof(reply));
-	sleep(1*(nwrite/150));
+	sleep(1.0*(nwrite/20)+0.5);
 	nread = read(fd, reply, sizeof(reply));
 	printf("nread=%d,%s\n", nread, reply);
 }
@@ -210,6 +210,10 @@ int send_en_message(int fd, struct message_info info)
 
 	printf("enter you message !\n");
 	gets(info.message);
+	if(strlen(info.message) < 2)
+	{
+		sprintf(info.message,"aa\rbb\r");
+	}
 	strcat(info.message, "\x1a");
 	strcat(cmgs, info.phnu);
 
@@ -220,7 +224,8 @@ int send_en_message(int fd, struct message_info info)
 char iconv_dst_buf[ 1024 ];
 char sms[ 1024 ];
 
-int convtest(char *content)
+//int convtest(char *content)
+int convtest()
 {
 
 	char * iconv_dst = NULL;
@@ -229,7 +234,7 @@ int convtest(char *content)
 	size_t iconv_src_len = 0;
 	size_t iconv_dst_len = 0;
 
-//	char *content = "123456789【优步】就在今天，优步青岛全城2.9折！在APP优惠一栏输入：为爱而烧，即刻获得2.9折优惠，周五出行从此无压力！微信关注公众号qd_you";
+	char *content = "1234567890【优步】就在今天，优步青岛全城2.9折！在APP优惠一栏输入：为爱而烧，即刻获得2.9折优惠，周五出行从此无压力！微信关注公众号qd_you";
 	memset( iconv_dst_buf, 0, sizeof( iconv_dst_buf ) );
 	iconv_dst = iconv_dst_buf;
 	iconv_src_len = strlen( content );
@@ -372,7 +377,7 @@ int send_zh_message(int fd, struct message_info info)
 
 	if(flag == 4)
 	{
-//		convtest();
+		convtest();
 		message[3] = sms;
 	}
 
@@ -572,15 +577,21 @@ int showMessage(int fd, struct message_info info)
 	return 0;
 }
 
-int main()
+int main(int argc,char *argv[])
 {
 	int fd;
 	char choice;
 	struct message_info info;
-	fd = open("/dev/ttyUSB2", O_RDWR | O_NOCTTY | O_NDELAY);
+	if(argc < 2)
+	{
+		printf("input port name\n");
+		return -1;
+	}
+	fd = open(argv[1], O_RDWR | O_NOCTTY | O_NDELAY);
 	if (-1 == fd)
 	{
-		perror("Can't Open Serial Port");
+		printf("Can't Open Serial Port,%s\n",argv[1]);
+		return -1;
 	}
 	serial_init(fd);
 	printf("\n============================================\n");

@@ -15,7 +15,7 @@ int main()
     pid_t status;
 
 
-    status = system("unzip -l /media/mmcblk0p4/FirmwareUpdate/bad.bin 2>/dev/null");
+    status = system("test.sh");
 
     if (-1 == status)
     {

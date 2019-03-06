@@ -1,0 +1,647 @@
+Archive member included because of file (symbol)
+
+/home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/./libc_nonshared.a(fstat.oS)
+                              /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/readfilemap.o (fstat)
+
+Discarded input sections
+
+ .note.GNU-stack
+                0x00000000        0x0 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+ .gnu_debuglink
+                0x00000000        0xc /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+ .note.GNU-stack
+                0x00000000        0x0 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/crtbeginS.o
+ .note.GNU-stack
+                0x00000000        0x0 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlparse/xmlparse.o
+ .note.GNU-stack
+                0x00000000        0x0 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmlrole.o
+ .note.GNU-stack
+                0x00000000        0x0 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmltok.o
+ .note.GNU-stack
+                0x00000000        0x0 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/codepage.o
+ .note.GNU-stack
+                0x00000000        0x0 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/readfilemap.o
+ .note.GNU-stack
+                0x00000000        0x0 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlfile.o
+ .note.GNU-stack
+                0x00000000        0x0 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlwf.o
+ .note.GNU-stack
+                0x00000000        0x0 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/./libc_nonshared.a(fstat.oS)
+ .note.GNU-stack
+                0x00000000        0x0 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/crtendS.o
+ .note.GNU-stack
+                0x00000000        0x0 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crtn.o
+ .gnu_debuglink
+                0x00000000        0xc /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crtn.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+LOAD /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/crtbeginS.o
+LOAD /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlparse/xmlparse.o
+LOAD /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmlrole.o
+LOAD /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmltok.o
+LOAD /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/codepage.o
+LOAD /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/readfilemap.o
+LOAD /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlfile.o
+LOAD /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlwf.o
+LOAD /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/libgcc.a
+LOAD /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/../../../../arm-linux-gnueabihf/lib/libgcc_s.so
+START GROUP
+LOAD /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/../../../../arm-linux-gnueabihf/lib/libgcc_s.so.1
+LOAD /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/libgcc.a
+END GROUP
+LOAD /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/libpthread.so
+START GROUP
+LOAD /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/../../lib/libpthread.so.0
+LOAD /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/./libpthread_nonshared.a
+END GROUP
+LOAD /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/libc.so
+START GROUP
+LOAD /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/../../lib/libc.so.6
+LOAD /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/./libc_nonshared.a
+LOAD /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/../../lib/ld-linux-armhf.so.3
+END GROUP
+LOAD /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/libgcc.a
+LOAD /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/../../../../arm-linux-gnueabihf/lib/libgcc_s.so
+START GROUP
+LOAD /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/../../../../arm-linux-gnueabihf/lib/libgcc_s.so.1
+LOAD /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/libgcc.a
+END GROUP
+LOAD /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/crtendS.o
+LOAD /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crtn.o
+                0x000000d4                . = (0x0 + SIZEOF_HEADERS)
+
+.note.gnu.build-id
+                0x000000d4       0x24
+ *(.note.gnu.build-id)
+ .note.gnu.build-id
+                0x000000d4       0x24 linker stubs
+
+.hash           0x000000f8      0x31c
+ *(.hash)
+ .hash          0x000000f8      0x31c /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+
+.gnu.hash
+ *(.gnu.hash)
+
+.dynsym         0x00000414      0x640
+ *(.dynsym)
+ .dynsym        0x00000414      0x640 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+
+.dynstr         0x00000a54      0x693
+ *(.dynstr)
+ .dynstr        0x00000a54      0x693 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+
+.gnu.version    0x000010e8       0xc8
+ *(.gnu.version)
+ .gnu.version   0x000010e8       0xc8 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+
+.gnu.version_d  0x000011b0        0x0
+ *(.gnu.version_d)
+ .gnu.version_d
+                0x00000000        0x0 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+
+.gnu.version_r  0x000011b0       0x40
+ *(.gnu.version_r)
+ .gnu.version_r
+                0x000011b0       0x40 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+
+.rel.dyn        0x000011f0      0x5c0
+ *(.rel.init)
+ *(.rel.text .rel.text.* .rel.gnu.linkonce.t.*)
+ .rel.text      0x00000000        0x0 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+ *(.rel.fini)
+ *(.rel.rodata .rel.rodata.* .rel.gnu.linkonce.r.*)
+ *(.rel.data.rel.ro .rel.data.rel.ro.* .rel.gnu.linkonce.d.rel.ro.*)
+ .rel.data.rel.ro.local
+                0x000011f0      0x530 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+ *(.rel.data .rel.data.* .rel.gnu.linkonce.d.*)
+ .rel.data.rel  0x00001720        0x8 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+ .rel.data.rel.local
+                0x00001728       0x38 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+ *(.rel.tdata .rel.tdata.* .rel.gnu.linkonce.td.*)
+ *(.rel.tbss .rel.tbss.* .rel.gnu.linkonce.tb.*)
+ *(.rel.ctors)
+ *(.rel.dtors)
+ *(.rel.got)
+ .rel.got       0x00001760       0x40 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+ *(.rel.bss .rel.bss.* .rel.gnu.linkonce.b.*)
+ *(.rel.iplt)
+ .rel.iplt      0x00000000        0x0 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+ .rel.init_array
+                0x000017a0        0x8 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+ .rel.fini_array
+                0x000017a8        0x8 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+
+.rela.dyn
+ *(.rela.init)
+ *(.rela.text .rela.text.* .rela.gnu.linkonce.t.*)
+ *(.rela.fini)
+ *(.rela.rodata .rela.rodata.* .rela.gnu.linkonce.r.*)
+ *(.rela.data .rela.data.* .rela.gnu.linkonce.d.*)
+ *(.rela.tdata .rela.tdata.* .rela.gnu.linkonce.td.*)
+ *(.rela.tbss .rela.tbss.* .rela.gnu.linkonce.tb.*)
+ *(.rela.ctors)
+ *(.rela.dtors)
+ *(.rela.got)
+ *(.rela.bss .rela.bss.* .rela.gnu.linkonce.b.*)
+ *(.rela.iplt)
+
+.rel.plt        0x000017b0      0x268
+ *(.rel.plt)
+ .rel.plt       0x000017b0      0x268 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+
+.rela.plt
+ *(.rela.plt)
+
+.init           0x00001a18        0xa
+ *(SORT(.init))
+ .init          0x00001a18        0x8 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+                0x00001a18                _init
+ .init          0x00001a20        0x2 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crtn.o
+
+.plt            0x00001a24      0x3b8
+ *(.plt)
+ .plt           0x00001a24      0x3b8 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+
+.iplt           0x00001ddc        0x0
+ *(.iplt)
+ .iplt          0x00000000        0x0 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+
+.text           0x00001ddc    0x1319c
+ *(.text.unlikely .text.*_unlikely)
+ *(.text.exit .text.exit.*)
+ *(.text.startup .text.startup.*)
+ .text.startup  0x00001ddc      0x640 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlwf.o
+                0x00001ddc                main
+ *(.text.hot .text.hot.*)
+ *(.text .stub .text.* .gnu.linkonce.t.*)
+ .text          0x0000241c       0x18 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+ .text          0x00002434       0xdc /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/crtbeginS.o
+ .text          0x00002510     0x4e08 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlparse/xmlparse.o
+                0x00006370                XML_SetEncoding
+                0x000063a4                XML_ParserFree
+                0x000064c8                XML_ParserCreate
+                0x00006714                XML_ParserCreateNS
+                0x0000677c                XML_ExternalEntityParserCreate
+                0x00006d70                XML_UseParserAsHandlerArg
+                0x00006d78                XML_SetUserData
+                0x00006d90                XML_SetBase
+                0x00006dc4                XML_GetBase
+                0x00006dcc                XML_GetSpecifiedAttributeCount
+                0x00006dd4                XML_GetIdAttributeIndex
+                0x00006ddc                XML_SetElementHandler
+                0x00006de8                XML_SetCharacterDataHandler
+                0x00006df0                XML_SetProcessingInstructionHandler
+                0x00006df8                XML_SetCommentHandler
+                0x00006e00                XML_SetCdataSectionHandler
+                0x00006e0c                XML_SetDefaultHandler
+                0x00006e1c                XML_SetDefaultHandlerExpand
+                0x00006e2c                XML_SetDoctypeDeclHandler
+                0x00006e38                XML_SetUnparsedEntityDeclHandler
+                0x00006e40                XML_SetExternalParsedEntityDeclHandler
+                0x00006e48                XML_SetInternalParsedEntityDeclHandler
+                0x00006e50                XML_SetNotationDeclHandler
+                0x00006e58                XML_SetNamespaceDeclHandler
+                0x00006e64                XML_SetNotStandaloneHandler
+                0x00006e6c                XML_SetExternalEntityRefHandler
+                0x00006e74                XML_SetExternalEntityRefHandlerArg
+                0x00006e84                XML_SetUnknownEncodingHandler
+                0x00006e90                XML_SetParamEntityParsing
+                0x00006e9c                XML_ParseBuffer
+                0x00006f3c                XML_GetBuffer
+                0x00007020                XML_Parse
+                0x000071f4                XML_GetErrorCode
+                0x000071fc                XML_GetCurrentByteIndex
+                0x0000721c                XML_GetCurrentByteCount
+                0x0000724c                XML_GetCurrentLineNumber
+                0x00007288                XML_GetCurrentColumnNumber
+                0x000072c0                XML_DefaultCurrent
+                0x000072f0                XML_ErrorString
+ .text          0x00007318     0x1788 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmlrole.o
+                0x00008a8c                XmlPrologStateInit
+ .text          0x00008aa0     0xb0dc /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmltok.o
+                0x00013368                XmlUtf8Encode
+                0x00013510                XmlUtf16Encode
+                0x00013560                XmlSizeOfUnknownEncoding
+                0x00013568                XmlInitUnknownEncoding
+                0x00013804                XmlGetUtf8InternalEncoding
+                0x00013818                XmlGetUtf16InternalEncoding
+                0x00013830                XmlInitEncoding
+                0x00013898                XmlParseXmlDecl
+ .text          0x00013b7c       0x10 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/codepage.o
+                0x00013b7c                codepageMap
+                0x00013b84                codepageConvert
+ .text          0x00013b8c      0x13c /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/readfilemap.o
+                0x00013b8c                filemap
+ .text          0x00013cc8      0x444 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlfile.o
+                0x00014034                XML_ProcessFile
+ .text          0x0001410c      0xe60 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlwf.o
+ .text          0x00014f6c        0xc /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/./libc_nonshared.a(fstat.oS)
+                0x00014f6c                fstat
+                0x00014f6c                __fstat
+ .text          0x00014f78        0x0 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/crtendS.o
+ .text          0x00014f78        0x0 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crtn.o
+ *(.gnu.warning)
+ *(.glue_7t)
+ .glue_7t       0x00000000        0x0 linker stubs
+ *(.glue_7)
+ .glue_7        0x00000000        0x0 linker stubs
+ *(.vfp11_veneer)
+ .vfp11_veneer  0x00000000        0x0 linker stubs
+ *(.v4_bx)
+ .v4_bx         0x00000000        0x0 linker stubs
+
+.fini           0x00014f78        0x6
+ *(SORT(.fini))
+ .fini          0x00014f78        0x4 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+                0x00014f78                _fini
+ .fini          0x00014f7c        0x2 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crtn.o
+                0x00014f7e                PROVIDE (__etext, .)
+                0x00014f7e                PROVIDE (_etext, .)
+                0x00014f7e                PROVIDE (etext, .)
+
+.rodata         0x00014f80      0xd4a
+ *(.rodata .rodata.* .gnu.linkonce.r.*)
+ .rodata        0x00014f80       0x29 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlparse/xmlparse.o
+ .rodata.str1.1
+                0x00014fa9      0x229 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlparse/xmlparse.o
+                                0x237 (size before relaxing)
+ .rodata        0x000151d2       0x94 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmlrole.o
+ *fill*         0x00015266        0x2 
+ .rodata        0x00015268      0x768 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmltok.o
+ .rodata.str1.1
+                0x000159d0       0x50 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/readfilemap.o
+ .rodata.str1.1
+                0x00015a20       0x3a /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlfile.o
+                                 0x4d (size before relaxing)
+ .rodata        0x00015a5a       0x1d /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlwf.o
+ .rodata.str1.1
+                0x00015a77      0x253 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlwf.o
+                                0x25f (size before relaxing)
+
+.rodata1
+ *(.rodata1)
+
+.ARM.extab
+ *(.ARM.extab* .gnu.linkonce.armextab.*)
+                0x00015cca                PROVIDE (__exidx_start, .)
+
+.ARM.exidx
+ *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+                0x00015cca                PROVIDE (__exidx_end, .)
+
+.eh_frame_hdr   0x00015ccc        0x0
+ *(.eh_frame_hdr)
+ .eh_frame_hdr  0x00000000        0x0 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crtn.o
+
+.eh_frame       0x00015ccc        0x4
+ *(.eh_frame)
+ .eh_frame      0x00015ccc        0x4 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/crtendS.o
+
+.gcc_except_table
+ *(.gcc_except_table .gcc_except_table.*)
+
+.exception_ranges
+ *(.exception_ranges .exception_ranges*)
+                0x00015cd0                . = (ALIGN (0x8000) - ((0x8000 - .) & 0x7fff))
+                0x0001e000                . = DATA_SEGMENT_ALIGN (0x8000, 0x1000)
+
+.eh_frame
+ *(.eh_frame)
+
+.gcc_except_table
+ *(.gcc_except_table .gcc_except_table.*)
+
+.exception_ranges
+ *(.exception_ranges .exception_ranges*)
+
+.tdata
+ *(.tdata .tdata.* .gnu.linkonce.td.*)
+
+.tbss
+ *(.tbss .tbss.* .gnu.linkonce.tb.*)
+ *(.tcommon)
+
+.preinit_array
+ *(.preinit_array)
+
+.init_array     0x0001e000        0x4
+ *(SORT(.init_array.*))
+ *(.init_array)
+ .init_array    0x0001e000        0x4 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/crtbeginS.o
+
+.fini_array     0x0001e004        0x4
+ *(SORT(.fini_array.*))
+ *(.fini_array)
+ .fini_array    0x0001e004        0x4 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/crtbeginS.o
+
+.ctors
+ *crtbegin.o(.ctors)
+ *crtbegin?.o(.ctors)
+ *(EXCLUDE_FILE(*crtend?.o *crtend.o) .ctors)
+ *(SORT(.ctors.*))
+ *(.ctors)
+
+.dtors
+ *crtbegin.o(.dtors)
+ *crtbegin?.o(.dtors)
+ *(EXCLUDE_FILE(*crtend?.o *crtend.o) .dtors)
+ *(SORT(.dtors.*))
+ *(.dtors)
+
+.jcr            0x0001e008        0x4
+ *(.jcr)
+ .jcr           0x0001e008        0x0 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/crtbeginS.o
+ .jcr           0x0001e008        0x4 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/crtendS.o
+
+.data.rel.ro    0x0001e00c      0xa88
+ *(.data.rel.ro.local* .gnu.linkonce.d.rel.ro.local.*)
+ .data.rel.ro.local
+                0x0001e00c       0x5c /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlparse/xmlparse.o
+ .data.rel.ro.local
+                0x0001e068       0x20 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmlrole.o
+ .data.rel.ro.local
+                0x0001e088      0xa0c /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmltok.o
+ *(.data.rel.ro .data.rel.ro.* .gnu.linkonce.d.rel.ro.*)
+
+.dynamic        0x0001ea94       0xf8
+ *(.dynamic)
+ .dynamic       0x0001ea94       0xf8 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+                0x0001ea94                _DYNAMIC
+                0x0001eb8c                . = DATA_SEGMENT_RELRO_END (., 0x0)
+
+.got            0x0001eb8c      0x160
+ *(.got.plt)
+ .got.plt       0x0001eb8c      0x140 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+                0x0001eb8c                _GLOBAL_OFFSET_TABLE_
+ *(.igot.plt)
+ .igot.plt      0x00000000        0x0 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+ *(.got)
+ .got           0x0001eccc       0x20 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+ *(.igot)
+
+.data           0x0001ecec       0x20
+                0x0001ecec                PROVIDE (__data_start, .)
+ *(.data .data.* .gnu.linkonce.d.*)
+ .data          0x0001ecec        0x0 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+ .data          0x0001ecec        0x0 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/crtbeginS.o
+ .data.rel      0x0001ecec        0x4 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/crtbeginS.o
+                0x0001ecec                __dso_handle
+ .data          0x0001ecf0        0x0 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlparse/xmlparse.o
+ .data          0x0001ecf0        0x0 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmlrole.o
+ .data          0x0001ecf0        0x0 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmltok.o
+ .data.rel.local
+                0x0001ecf0       0x1c /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmltok.o
+ .data          0x0001ed0c        0x0 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/codepage.o
+ .data          0x0001ed0c        0x0 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/readfilemap.o
+ .data          0x0001ed0c        0x0 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlfile.o
+ .data          0x0001ed0c        0x0 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlwf.o
+ .data          0x0001ed0c        0x0 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/./libc_nonshared.a(fstat.oS)
+ .data          0x0001ed0c        0x0 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/crtendS.o
+ .data          0x0001ed0c        0x0 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crtn.o
+
+.tm_clone_table
+                0x0001ed0c        0x0
+ .tm_clone_table
+                0x0001ed0c        0x0 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/crtbeginS.o
+ .tm_clone_table
+                0x0001ed0c        0x0 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/crtendS.o
+
+.data1
+ *(.data1)
+                0x0001ed0c                _edata = .
+                0x0001ed0c                PROVIDE (edata, .)
+                0x0001ed0c                . = .
+                0x0001ed0c                __bss_start = .
+                0x0001ed0c                __bss_start__ = .
+
+.bss            0x0001ed0c        0x4
+ *(.dynbss)
+ .dynbss        0x00000000        0x0 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+ *(.bss .bss.* .gnu.linkonce.b.*)
+ .bss           0x0001ed0c        0x0 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+ .bss           0x0001ed0c        0x1 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/crtbeginS.o
+ .bss           0x0001ed0d        0x0 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlparse/xmlparse.o
+ .bss           0x0001ed0d        0x0 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmlrole.o
+ .bss           0x0001ed0d        0x0 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmltok.o
+ .bss           0x0001ed0d        0x0 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/codepage.o
+ .bss           0x0001ed0d        0x0 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/readfilemap.o
+ .bss           0x0001ed0d        0x0 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlfile.o
+ .bss           0x0001ed0d        0x0 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlwf.o
+ .bss           0x0001ed0d        0x0 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/./libc_nonshared.a(fstat.oS)
+ .bss           0x0001ed0d        0x0 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/crtendS.o
+ .bss           0x0001ed0d        0x0 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crtn.o
+ *(COMMON)
+                0x0001ed10                . = ALIGN ((. != 0x0)?0x4:0x1)
+ *fill*         0x0001ed0d        0x3 
+                0x0001ed10                _bss_end__ = .
+                0x0001ed10                __bss_end__ = .
+                0x0001ed10                . = ALIGN (0x4)
+                0x0001ed10                . = ALIGN (0x4)
+                0x0001ed10                __end__ = .
+                0x0001ed10                _end = .
+                0x0001ed10                PROVIDE (end, .)
+                0x0001ed10                . = DATA_SEGMENT_END (.)
+
+.stab
+ *(.stab)
+
+.stabstr
+ *(.stabstr)
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment        0x00000000       0x68
+ *(.comment)
+ .comment       0x00000000       0x68 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlparse/xmlparse.o
+                                 0x69 (size before relaxing)
+ .comment       0x00000000       0x69 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmlrole.o
+ .comment       0x00000000       0x69 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmltok.o
+ .comment       0x00000000       0x69 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/codepage.o
+ .comment       0x00000000       0x69 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/readfilemap.o
+ .comment       0x00000000       0x69 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlfile.o
+ .comment       0x00000000       0x69 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlwf.o
+
+.ARM.attributes
+                0x00000000       0x3b
+ .ARM.attributes
+                0x00000000       0x37 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crti.o
+ .ARM.attributes
+                0x00000037       0x35 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/crtbeginS.o
+ .ARM.attributes
+                0x0000006c       0x3f /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlparse/xmlparse.o
+ .ARM.attributes
+                0x000000ab       0x3f /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmlrole.o
+ .ARM.attributes
+                0x000000ea       0x3f /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmltok.o
+ .ARM.attributes
+                0x00000129       0x3f /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/codepage.o
+ .ARM.attributes
+                0x00000168       0x3f /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/readfilemap.o
+ .ARM.attributes
+                0x000001a7       0x3f /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlfile.o
+ .ARM.attributes
+                0x000001e6       0x3f /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlwf.o
+ .ARM.attributes
+                0x00000225       0x37 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/./libc_nonshared.a(fstat.oS)
+ .ARM.attributes
+                0x0000025c       0x35 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../lib/gcc/arm-linux-gnueabihf/4.7.3/crtendS.o
+ .ARM.attributes
+                0x00000291       0x37 /home/user/ti-sdk-am335x-evm-06.00.00.00/linux-devkit/sysroots/i686-arago-linux/usr/bin/../arm-linux-gnueabihf/libc/usr/lib/arm-linux-gnueabihf/4.7.3/crtn.o
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges  0x00000000       0xe8
+ *(.debug_aranges)
+ .debug_aranges
+                0x00000000       0x20 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlparse/xmlparse.o
+ .debug_aranges
+                0x00000020       0x20 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmlrole.o
+ .debug_aranges
+                0x00000040       0x20 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmltok.o
+ .debug_aranges
+                0x00000060       0x20 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/codepage.o
+ .debug_aranges
+                0x00000080       0x20 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/readfilemap.o
+ .debug_aranges
+                0x000000a0       0x20 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlfile.o
+ .debug_aranges
+                0x000000c0       0x28 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlwf.o
+
+.debug_pubnames
+ *(.debug_pubnames)
+
+.debug_info     0x00000000    0x11e4b
+ *(.debug_info .gnu.linkonce.wi.*)
+ .debug_info    0x00000000     0x606d /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlparse/xmlparse.o
+ .debug_info    0x0000606d     0x242c /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmlrole.o
+ .debug_info    0x00008499     0x5914 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmltok.o
+ .debug_info    0x0000ddad       0xb5 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/codepage.o
+ .debug_info    0x0000de62      0x749 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/readfilemap.o
+ .debug_info    0x0000e5ab      0xec9 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlfile.o
+ .debug_info    0x0000f474     0x29d7 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlwf.o
+
+.debug_abbrev   0x00000000     0x15a6
+ *(.debug_abbrev)
+ .debug_abbrev  0x00000000      0x4d6 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlparse/xmlparse.o
+ .debug_abbrev  0x000004d6      0x290 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmlrole.o
+ .debug_abbrev  0x00000766      0x5bb /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmltok.o
+ .debug_abbrev  0x00000d21       0x74 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/codepage.o
+ .debug_abbrev  0x00000d95      0x1b6 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/readfilemap.o
+ .debug_abbrev  0x00000f4b      0x2c6 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlfile.o
+ .debug_abbrev  0x00001211      0x395 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlwf.o
+
+.debug_line     0x00000000     0x406f
+ *(.debug_line)
+ .debug_line    0x00000000     0x1032 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlparse/xmlparse.o
+ .debug_line    0x00001032      0x460 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmlrole.o
+ .debug_line    0x00001492     0x1f4a /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmltok.o
+ .debug_line    0x000033dc       0x43 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/codepage.o
+ .debug_line    0x0000341f      0x2e7 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/readfilemap.o
+ .debug_line    0x00003706      0x327 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlfile.o
+ .debug_line    0x00003a2d      0x642 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlwf.o
+
+.debug_frame    0x00000000     0x1bfc
+ *(.debug_frame)
+ .debug_frame   0x00000000      0x7d8 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlparse/xmlparse.o
+ .debug_frame   0x000007d8      0x3ac /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmlrole.o
+ .debug_frame   0x00000b84      0xb10 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmltok.o
+ .debug_frame   0x00001694       0x30 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/codepage.o
+ .debug_frame   0x000016c4       0x38 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/readfilemap.o
+ .debug_frame   0x000016fc       0xfc /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlfile.o
+ .debug_frame   0x000017f8      0x404 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlwf.o
+
+.debug_str      0x00000000     0x35f7
+ *(.debug_str)
+ .debug_str     0x00000000     0x1f68 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlparse/xmlparse.o
+                               0x209e (size before relaxing)
+ .debug_str     0x00001f68      0x291 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmlrole.o
+                                0xa4c (size before relaxing)
+ .debug_str     0x000021f9      0xc3b /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmltok.o
+                                0xfcd (size before relaxing)
+ .debug_str     0x00002e34       0x2d /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/codepage.o
+                                 0x8e (size before relaxing)
+ .debug_str     0x00002e61      0x2a9 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/readfilemap.o
+                                0x3e9 (size before relaxing)
+ .debug_str     0x0000310a       0xe2 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlfile.o
+                                0x767 (size before relaxing)
+ .debug_str     0x000031ec      0x40b /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlwf.o
+                                0xcc8 (size before relaxing)
+
+.debug_loc      0x00000000    0x11f83
+ *(.debug_loc)
+ .debug_loc     0x00000000     0x4786 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlparse/xmlparse.o
+ .debug_loc     0x00004786     0x26af /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmlrole.o
+ .debug_loc     0x00006e35     0x9479 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmltok.o
+ .debug_loc     0x000102ae       0x42 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/codepage.o
+ .debug_loc     0x000102f0      0x157 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/readfilemap.o
+ .debug_loc     0x00010447      0x5e5 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlfile.o
+ .debug_loc     0x00010a2c     0x1557 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlwf.o
+
+.debug_macinfo
+ *(.debug_macinfo)
+
+.debug_weaknames
+ *(.debug_weaknames)
+
+.debug_funcnames
+ *(.debug_funcnames)
+
+.debug_typenames
+ *(.debug_typenames)
+
+.debug_varnames
+ *(.debug_varnames)
+
+.debug_pubtypes
+ *(.debug_pubtypes)
+
+.debug_ranges   0x00000000      0xe10
+ *(.debug_ranges)
+ .debug_ranges  0x00000000      0x700 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlparse/xmlparse.o
+ .debug_ranges  0x00000700      0x258 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmlrole.o
+ .debug_ranges  0x00000958      0x3d8 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmltok/xmltok.o
+ .debug_ranges  0x00000d30       0x60 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlfile.o
+ .debug_ranges  0x00000d90       0x80 /home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/obj/libExpat/xmlwf/xmlwf.o
+
+.debug_macro
+ *(.debug_macro)
+
+.gnu.attributes
+ *(.gnu.attributes)
+
+.note.gnu.arm.ident
+ *(.note.gnu.arm.ident)
+
+/DISCARD/
+ *(.note.GNU-stack)
+ *(.gnu_debuglink)
+ *(.gnu.lto_*)
+OUTPUT(/home/user/gitcafe/OpenTookits/linuxapp/ecu1051test/Common/output/libExpat.so elf32-littlearm)
